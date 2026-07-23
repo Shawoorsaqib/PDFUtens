@@ -1,0 +1,8 @@
+/* ==========================================
+   Layout Styles: Containers, Grids, Flex Utilities
+   ========================================== */
+
+.container {
+    width: min(100% - (2 * var(--container-padding)), var(--container-width));
+    margin-inline: auto;
+}

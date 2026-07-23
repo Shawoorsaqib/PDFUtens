@@ -1,0 +1,22 @@
+/* ==========================================
+   Component Styles: Buttons, Cards, Navbar, Footer
+   ========================================== */
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.logo img {
+    width: 45px;
+    height: 45px;
+}
+
+.logo span {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1E293B;
+}
