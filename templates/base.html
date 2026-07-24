@@ -7,30 +7,87 @@
     <title>{% block title %}PDF Utens {% endblock %}</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+    <link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body>
-    <header>
-        <div class="logo">
-            <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="PDF Utens Logo">
-            <span>PDF Utens</span>
+    <header class="navbar">
+        <div class="container">
+
+            <nav>
+
+                <!-- Logo -->
+                <a href="/" class="logo">
+
+                    <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="PDF Utens Logo">
+
+                    <span>PDF Utens</span>
+
+                </a>
+
+                <!-- Desktop Navigation -->
+                <ul class="nav-links">
+
+                    <li><a href="/">Home</a></li>
+                    <li><a href="#">Tools</a></li>
+                    <li><a href="#">About</a></li>
+
+                </ul>
+
+                <!-- Desktop Actions -->
+                <div class="nav-actions">
+
+                    <a href="https://github.com/YOUR_USERNAME/PDF-Utens" class="github-btn" target="_blank">
+
+                        <i class="bi bi-github"></i>
+
+                        GitHub
+
+                    </a>
+
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="menu-toggle" aria-label="Toggle Menu">
+
+                    <i class="bi bi-list"></i>
+
+                </button>
+
+            </nav>
+
+            <!-- Mobile Navigation -->
+
+            <div class="mobile-menu">
+
+                <a href="/">Home</a>
+
+                <a href="#">Tools</a>
+
+                <a href="#">About</a>
+
+                <a href="https://github.com/Shawoorsaqib/PDFUtens" target="_blank">
+
+                    <i class="bi bi-github"></i>
+
+                    GitHub
+
+                </a>
+
+            </div>
+
         </div>
-
-        <nav>
-
-            <a href="/"> home </a>
-
-            <a href="#">Tools</a>
-
-            <a href="#">About</a>
-
-        </nav>
 
     </header>
 
     {% block content %}
 
     {% endblock %}
+
+
+    <script src="{{ url_for('static', filename='js/navbar.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
 

@@ -1,13 +1,21 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block title %}
-    PDF Utens
+PDF Utens
 {% endblock %}
 
 {% block content %}
-    <h1>Welcome to PDF Utens</h1>
 
-    <p>
-        your all in one PDF toolkit
-    </p>
+{% include "sections/hero.html" %}
+
+{% include "sections/upload.html" %}
+
+{% include "sections/tools.html" %}
+
+{% include "sections/features.html" %}
+
+{% include "sections/cta.html" %}
+
+{% include "sections/footer.html" %}
+
 {% endblock %}

@@ -2,21 +2,285 @@
    Component Styles: Buttons, Cards, Navbar, Footer
    ========================================== */
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1.5rem;
-    font-weight: 700;
+.logo{
+
+    display:flex;
+    align-items:center;
+    gap:.75rem;
+
+    font-size:1.35rem;
+    font-weight:700;
+
+    color:var(--secondary);
 }
 
-.logo img {
-    width: 45px;
-    height: 45px;
+.logo img{
+
+    width:42px;
+    height:42px;
 }
 
 .logo span {
     font-size: 1.6rem;
     font-weight: 700;
     color: #1E293B;
+}
+
+.navbar{
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+
+    width: 100%;
+
+    height: var(--navbar-height);
+
+    background: rgba(255,255,255,.95);
+
+    backdrop-filter: blur(12px);
+
+    border-bottom: 1px solid var(--border);
+}
+
+.navbar nav{
+    height: 100%;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.nav-links{
+
+    display:flex;
+    gap:2rem;
+}
+
+.nav-links a{
+
+    color:var(--text-secondary);
+
+    font-weight:500;
+
+    transition:var(--transition);
+}
+
+.nav-links a:hover{
+
+    color:var(--primary);
+}
+
+.github-btn{
+    margin: 10px;
+    display:flex;
+    align-items:center;
+    gap:.5rem;
+    text-align: center;
+
+    padding:.75rem 1.25rem;
+
+    background:var(--secondary);
+    color:white;
+
+    border-radius:var(--radius-md);
+
+    transition:var(--transition);
+}
+
+.github-btn:hover{
+    background:var(--primary);
+
+    transform:translateY(-2px);
+
+    box-shadow:var(--shadow-md);
+}
+
+.github-btn i{
+    font-size:1.2rem;
+}
+
+.btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+
+    padding: .8rem 1.6rem;
+
+    border: none;
+    border-radius: var(--radius-md);
+
+    font-size: var(--fs-md);
+    font-weight: var(--fw-semibold);
+
+    cursor: pointer;
+
+    transition: var(--transition);
+
+    text-decoration: none;
+}
+
+.btn-primary{
+
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover{
+
+    background: var(--primary-dark);
+
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow-md);
+}
+
+.btn-outline{
+
+    border: 2px solid var(--border);
+
+    color: var(--text-primary);
+
+    background: transparent;
+}
+
+.btn-outline:hover{
+
+    border-color: var(--primary);
+
+    color: var(--primary);
+}
+
+/* ===========================
+   Footer
+=========================== */
+
+.footer{
+
+    background: var(--secondary);
+
+    color: white;
+
+    padding: 5rem 0 2rem;
+}
+
+.footer-grid{
+
+    display: grid;
+
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+
+    gap: 3rem;
+}
+
+.footer-brand p{
+
+    margin-top: 1rem;
+
+    color: rgba(255,255,255,.75);
+
+    line-height: 1.8;
+}
+
+.footer-links h3{
+
+    margin-bottom: 1rem;
+
+    font-size: 1.1rem;
+}
+
+.footer-links ul{
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: .75rem;
+}
+
+.footer-links a{
+
+    color: rgba(255,255,255,.75);
+
+    transition: var(--transition);
+}
+
+.footer-links a:hover{
+
+    color: white;
+}
+
+.footer-bottom{
+
+    margin-top: 3rem;
+
+    padding-top: 2rem;
+
+    border-top: 1px solid rgba(255,255,255,.1);
+
+    text-align: center;
+
+    color: rgba(255,255,255,.6);
+}
+
+.menu-toggle{
+
+    display:none;
+
+    background:none;
+
+    border:none;
+
+    color:var(--secondary);
+
+    font-size:2rem;
+}
+
+/* ===========================
+   Mobile Navigation
+=========================== */
+
+.mobile-menu{
+
+    display:none;
+
+    flex-direction:column;
+
+    width:100%;
+
+    background:var(--surface);
+
+    border-top:1px solid var(--border);
+
+    box-shadow:var(--shadow-md);
+
+    overflow:hidden;
+}
+
+.mobile-menu a{
+
+    padding:1rem 2rem;
+
+    border-bottom:1px solid var(--border);
+
+    transition:var(--transition);
+
+    color:var(--text-primary);
+
+    font-weight:500;
+}
+
+.mobile-menu a:hover{
+
+    background:var(--surface-hover);
+
+    color:var(--primary);
+}
+
+.mobile-menu.active{
+
+    display:flex;
 }
