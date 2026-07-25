@@ -284,3 +284,40 @@
 
     display:flex;
 }
+
+.selected-file{
+
+    margin:1rem 0;
+
+    color:var(--text-secondary);
+
+    font-size:.95rem;
+
+    font-weight:500;
+
+    word-break:break-word;
+}
+
+.upload-status{
+
+    margin-top:1rem;
+
+    font-weight:600;
+
+    min-height:24px;
+}
+
+.upload-success{
+
+    color:#16A34A;
+}
+
+.upload-error{
+
+    color:#DC2626;
+}
+
+.upload-loading{
+
+    color:#2563EB;
+}

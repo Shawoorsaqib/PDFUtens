@@ -1,10 +1,13 @@
-from flask import Flask
+from flask import Flask, render_template
 import os
+
+from routes.tools import tools_bp
 
 import config
 
 
 app = Flask(__name__)
+app.register_blueprint(tools_bp)
 
 app.config["UPLOAD_FOLDER"] = config.UPLOAD_FOLDER
 app.config["OUTPUT_FOLDER"] = config.OUTPUT_FOLDER
@@ -16,11 +19,9 @@ os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 os.makedirs(app.config["OUTPUT_FOLDER"], exist_ok=True)
 os.makedirs(app.config["TEMP_FOLDER"], exist_ok=True)
 
-
-
 @app.route("/")
 def home():
-    return "PDFUtens Backend is ready"
+    return render_template("index.html")
 
 
 if __name__ == "__main__":

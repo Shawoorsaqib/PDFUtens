@@ -1,8 +1,8 @@
-<section class="upload-section">
+<section class="upload-section" id="upload">    
 
     <div class="container">
 
-        <div class="upload-box">
+        <form class="upload-box" action="/upload" method="POST" enctype="multipart/form-data">
 
             <i class="bi bi-cloud-arrow-up upload-icon"></i>
 
@@ -16,11 +16,22 @@
                 Supports PDF, DOCX, XLSX, PPTX, PNG and JPG
             </small>
 
-            <button class="btn btn-primary">
+            <input type="file" name="file" id="fileInput" hidden>
+            <p id="selectedFile" class="selected-file">
+                No file selected
+            </p>
+
+            <p id="uploadStatus" class="upload-status"></p>
+
+            <button type="button" class="btn btn-primary" id="chooseFileBtn">
                 Choose File
             </button>
 
-        </div>
+            <button type="submit" class="btn btn-outline">
+                Upload
+            </button>
+
+        </form>
 
     </div>
 
