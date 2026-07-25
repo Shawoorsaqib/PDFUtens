@@ -154,6 +154,46 @@
     color: var(--primary);
 }
 
+.btn-success {
+
+    background: #16A34A;
+
+    color: white;
+}
+
+.btn-success:hover {
+
+    background: #15803D;
+
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow-md);
+}
+
+.btn:disabled {
+
+    opacity: 0.7;
+
+    cursor: not-allowed;
+
+    transform: none !important;
+}
+
+@keyframes spin {
+
+    0% { transform: rotate(0deg); }
+
+    100% { transform: rotate(360deg); }
+}
+
+.spin {
+
+    animation: spin 1s linear infinite;
+
+    display: inline-block;
+}
+
+
 /* ===========================
    Footer
 =========================== */
@@ -320,4 +360,274 @@
 .upload-loading{
 
     color:#2563EB;
+}
+
+/* ===========================
+   Image Preview
+=========================== */
+
+.preview-container{
+
+    display:none;
+
+    width:56px;
+
+    height:56px;
+
+    border-radius:var(--radius-md);
+
+    overflow:hidden;
+
+    border:1px solid var(--border);
+
+    background:#F8FAFC;
+
+    flex-shrink: 0;
+}
+
+.preview-container.active{
+
+    display:block;
+}
+
+.preview-container img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+}
+
+.document-icon {
+
+    width: 100%;
+
+    height: 100%;
+
+    background: #EFF6FF;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 2rem;
+
+    color: var(--primary);
+}
+
+.selected-file-card {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 1.25rem;
+
+    background: #F8FAFC;
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-md);
+
+    padding: 1rem 1.25rem;
+
+    margin: 1.5rem auto;
+
+    max-width: 480px;
+
+    position: relative;
+
+    box-shadow: var(--shadow-sm);
+
+    text-align: left;
+
+    transition: var(--transition);
+}
+
+.selected-file-card:hover {
+
+    border-color: var(--primary-light);
+
+    box-shadow: var(--shadow-md);
+}
+
+.file-info {
+
+    flex: 1;
+
+    min-width: 0;
+}
+
+.file-name {
+
+    font-weight: 600;
+
+    color: var(--text-primary);
+
+    font-size: 0.95rem;
+
+    margin-bottom: 0.2rem;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+.file-size {
+
+    font-size: 0.825rem;
+
+    color: var(--text-light);
+}
+
+.remove-file-btn {
+
+    background: transparent;
+
+    border: none;
+
+    color: #94A3B8;
+
+    font-size: 1.2rem;
+
+    cursor: pointer;
+
+    padding: 0.4rem;
+
+    border-radius: 50%;
+
+    transition: var(--transition);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.remove-file-btn:hover {
+
+    color: #EF4444;
+
+    background: #F1F5F9;
+}
+
+.action-buttons, .upload-actions {
+
+    margin-top: 1.5rem;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 1rem;
+}
+
+/* ===========================
+   Drag & Drop
+=========================== */
+
+.upload-box{
+
+    position: relative;
+
+    transition: var(--transition);
+
+    cursor: pointer;
+}
+
+.upload-box.drag-over{
+
+    border: 2px dashed var(--primary);
+
+    background: rgba(37,99,235,.06);
+
+    transform: scale(1.02);
+
+    box-shadow: var(--shadow-lg);
+}
+
+/* ===========================
+   Success Card
+=========================== */
+
+.success-card{
+
+    display:none;
+
+    margin-top:2rem;
+
+    padding:2.5rem 2rem;
+
+    border-radius:var(--radius-lg);
+
+    background:white;
+
+    border:1px solid var(--border);
+
+    box-shadow:var(--shadow-md);
+
+    text-align:center;
+
+    animation:fadeUp .35s ease;
+}
+
+.success-card.show{
+
+    display:block;
+}
+
+.success-icon{
+
+    font-size:4rem;
+
+    color:#22C55E;
+
+    margin-bottom:1rem;
+}
+
+.success-card h3{
+
+    margin-bottom:.75rem;
+}
+
+.success-card p{
+
+    color:var(--text-secondary);
+
+    margin-bottom:2rem;
+}
+
+.success-actions{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:1rem;
+
+    flex-wrap:wrap;
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+    }
+
 }

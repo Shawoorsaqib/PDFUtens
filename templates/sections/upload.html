@@ -1,38 +1,68 @@
-<section class="upload-section" id="upload">    
-
+<section class="upload-section" id="upload">
     <div class="container">
+        <form class="upload-box" id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
+            
+            <!-- Main Dropzone Prompt Content -->
+            <div class="upload-content" id="uploadContent">
+                <i class="bi bi-cloud-arrow-up upload-icon"></i>
+                <h2>Drag & Drop your files</h2>
+                <p>or click anywhere to browse from your device</p>
+                <small>Supports PDF, DOCX, XLSX, PPTX, PNG, JPG, and WEBP</small>
 
-        <form class="upload-box" action="/upload" method="POST" enctype="multipart/form-data">
+                <input type="file" name="file" id="fileInput" accept=".pdf,.docx,.xlsx,.pptx,.png,.jpg,.jpeg,.webp" hidden>
 
-            <i class="bi bi-cloud-arrow-up upload-icon"></i>
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-primary" id="chooseFileBtn">
+                        <i class="bi bi-folder2-open"></i> Choose File
+                    </button>
+                </div>
+            </div>
 
-            <h2>Drag & Drop your files</h2>
+            <!-- Selected File Preview Card -->
+            <div class="selected-file-card" id="selectedFileCard" style="display: none;">
+                <div class="preview-container" id="previewContainer">
+                    <img id="imagePreview" src="" alt="Preview" style="display: none;">
+                    <div id="documentIcon" class="document-icon" style="display: none;">
+                        <i class="bi bi-file-earmark-text-fill"></i>
+                    </div>
+                </div>
+                <div class="file-info">
+                    <p id="selectedFileName" class="file-name">No file selected</p>
+                    <span id="selectedFileSize" class="file-size">0 KB</span>
+                </div>
+                <button type="button" id="removeFileBtn" class="remove-file-btn" title="Remove selected file">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
 
-            <p>
-                or click to browse from your device
-            </p>
+            <!-- Status Message -->
+            <div id="uploadStatus" class="upload-status" style="display: none;"></div>
 
-            <small>
-                Supports PDF, DOCX, XLSX, PPTX, PNG and JPG
-            </small>
+            <!-- Upload Action Button -->
+            <div class="upload-actions" id="uploadActions" style="display: none;">
+                <button type="submit" class="btn btn-success" id="uploadBtn">
+                    <i class="bi bi-upload"></i> Upload & Convert
+                </button>
+            </div>
 
-            <input type="file" name="file" id="fileInput" hidden>
-            <p id="selectedFile" class="selected-file">
-                No file selected
-            </p>
+            <!-- Success Card -->
+            <div id="successCard" class="success-card" style="display: none;">
+                <div class="success-icon">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <h3>Conversion Complete!</h3>
+                <p>Your PDF has been generated successfully.</p>
 
-            <p id="uploadStatus" class="upload-status"></p>
-
-            <button type="button" class="btn btn-primary" id="chooseFileBtn">
-                Choose File
-            </button>
-
-            <button type="submit" class="btn btn-outline">
-                Upload
-            </button>
+                <div class="success-actions">
+                    <a id="downloadBtn" href="#" class="btn btn-primary" download>
+                        <i class="bi bi-download"></i> Download PDF
+                    </a>
+                    <button id="convertAnotherBtn" type="button" class="btn btn-outline">
+                        <i class="bi bi-arrow-counterclockwise"></i> Convert Another
+                    </button>
+                </div>
+            </div>
 
         </form>
-
     </div>
-
 </section>
