@@ -15,7 +15,7 @@ from utils.validators import (
     is_allowed_document
 )
 from utils.file_handler import save_uploaded_file
-from utils.converters import image_to_pdf
+from utils.converters import image_to_pdf, images_to_pdf
 from utils.cleanup import delete_file_pair, cleanup_old_files
 
 image_to_pdf_bp = Blueprint("image_to_pdf", __name__)
@@ -24,48 +24,52 @@ image_to_pdf_bp = Blueprint("image_to_pdf", __name__)
 @image_to_pdf_bp.route("/upload", methods=["POST"])
 def upload_file():
     """
-    Uploads a file after validation and converts it to PDF.
+    Uploads file(s) after validation and converts image(s) to PDF.
     Also cleans up any stale/abandoned files.
     """
     # Proactively clean up files older than 1 hour
     cleanup_old_files(max_age_seconds=3600)
 
-    # Check if a file was sent
-    if "file" not in request.files:
+    uploaded_files = request.files.getlist("file")
+    if not uploaded_files or all(f.filename == "" for f in uploaded_files):
+        uploaded_files = request.files.getlist("files")
+
+    if not uploaded_files or all(f.filename == "" for f in uploaded_files):
         return jsonify({
             "success": False,
             "message": "No file uploaded."
         }), 400
 
-    file = request.files["file"]
+    uploaded_files = [f for f in uploaded_files if f.filename != ""]
 
-    # Check empty filename
-    if file.filename == "":
-        return jsonify({
-            "success": False,
-            "message": "No file selected."
-        }), 400
+    saved_paths = []
+    saved_filenames = []
+    image_paths = []
 
-    # Validate file type
-    if not (
-        is_allowed_image(file.filename)
-        or
-        is_allowed_document(file.filename)
-    ):
-        return jsonify({
-            "success": False,
-            "message": "Unsupported file type."
-        }), 400
+    for file in uploaded_files:
+        if not (
+            is_allowed_image(file.filename)
+            or
+            is_allowed_document(file.filename)
+        ):
+            return jsonify({
+                "success": False,
+                "message": f"Unsupported file type: {file.filename}"
+            }), 400
 
-    # Save uploaded file
-    filename, path = save_uploaded_file(file)
+        filename, path = save_uploaded_file(file)
+        saved_filenames.append(filename)
+        saved_paths.append(path)
+        if is_allowed_image(file.filename):
+            image_paths.append(path)
 
-    # Convert image to PDF or handle document file
     pdf_filename = None
 
-    if is_allowed_image(filename):
-        pdf_filename, _ = image_to_pdf(path)
-    else:
+    if image_paths:
+        pdf_filename, _ = images_to_pdf(image_paths)
+    elif saved_paths:
+        filename = saved_filenames[0]
+        path = saved_paths[0]
         pdf_filename = filename
         if not pdf_filename.lower().endswith(".pdf"):
             pdf_filename = f"{os.path.splitext(filename)[0]}.pdf"
@@ -74,7 +78,7 @@ def upload_file():
 
     return jsonify({
         "success": True,
-        "uploaded_file": filename,
+        "uploaded_files": saved_filenames,
         "pdf_file": pdf_filename,
         "download_url": f"/download/{pdf_filename}" if pdf_filename else None
     })

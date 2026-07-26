@@ -1,1 +1,76 @@
+{% extends "base.html" %}
 
+{% block title %}
+Merge PDF | PDF Utens
+{% endblock %}
+
+{% block content %}
+
+<section class="tool-page">
+    <div class="container">
+        <div class="tool-header text-center mb-4">
+            <h1>Merge PDF</h1>
+            <p>Combine multiple PDF files into one document in your chosen order.</p>
+        </div>
+
+        <form class="upload-box" id="mergeForm" action="/merge-pdf/upload" method="POST" enctype="multipart/form-data">
+
+            <!-- Main Dropzone Content -->
+            <div class="upload-content" id="uploadContent">
+                <i class="bi bi-files upload-icon"></i>
+                <h2>Select PDF Files</h2>
+                <p>Choose two or more PDF files or drag & drop them here</p>
+                <small>Only .pdf files are supported</small>
+
+                <input type="file" name="file" id="mergeFileInput" accept=".pdf" multiple hidden>
+
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-primary" id="chooseMergeFilesBtn">
+                        <i class="bi bi-folder2-open"></i> Choose PDFs
+                    </button>
+                </div>
+            </div>
+
+            <!-- Selected Files Container -->
+            <div class="selected-files-container" id="selectedFilesContainer" style="display: none;"></div>
+
+            <!-- Upload / Action Buttons -->
+            <div class="upload-actions" id="uploadActions" style="display: none;">
+                <div class="upload-buttons">
+                    <button type="button" class="btn btn-outline" id="addMorePdfsBtn">
+                        <i class="bi bi-plus-lg"></i> Add More PDFs
+                    </button>
+                    <button type="submit" class="btn btn-success" id="mergeSubmitBtn">
+                        <i class="bi bi-files"></i> Merge PDFs
+                    </button>
+                </div>
+            </div>
+
+            <!-- Status Message -->
+            <div id="uploadStatus" class="upload-status" style="display: none;"></div>
+
+            <!-- Success Card -->
+            <div id="successCard" class="success-card" style="display: none;">
+                <div class="success-icon">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <h3>PDFs Merged Successfully!</h3>
+                <p>Your combined PDF file is ready for download.</p>
+
+                <div class="success-actions">
+                    <a id="downloadMergedBtn" href="#" class="btn btn-primary" download>
+                        <i class="bi bi-download"></i> Download Merged PDF
+                    </a>
+                    <button id="mergeAnotherBtn" type="button" class="btn btn-outline">
+                        <i class="bi bi-arrow-counterclockwise"></i> Merge More PDFs
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</section>
+
+<script src="{{ url_for('static', filename='js/merge.js') }}"></script>
+
+{% endblock %}

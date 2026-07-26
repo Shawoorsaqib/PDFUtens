@@ -1,7 +1,7 @@
 <section class="upload-section" id="upload">
     <div class="container">
         <form class="upload-box" id="uploadForm" action="/upload" method="POST" enctype="multipart/form-data">
-            
+
             <!-- Main Dropzone Prompt Content -->
             <div class="upload-content" id="uploadContent">
                 <i class="bi bi-cloud-arrow-up upload-icon"></i>
@@ -9,31 +9,30 @@
                 <p>or click anywhere to browse from your device</p>
                 <small>Supports PDF, DOCX, XLSX, PPTX, PNG, JPG, and WEBP</small>
 
-                <input type="file" name="file" id="fileInput" accept=".pdf,.docx,.xlsx,.pptx,.png,.jpg,.jpeg,.webp" hidden>
+                <input type="file" name="file" id="fileInput" accept=".pdf,.docx,.xlsx,.pptx,.png,.jpg,.jpeg,.webp"
+                    multiple hidden>
 
                 <div class="action-buttons">
+
                     <button type="button" class="btn btn-primary" id="chooseFileBtn">
-                        <i class="bi bi-folder2-open"></i> Choose File
+
+                        <i class="bi bi-folder2-open"></i>
+                        Choose File
+
                     </button>
+
+                    <button type="button" class="btn btn-outline" id="addMoreBtn" style="display:none;">
+
+                        <i class="bi bi-plus-circle-fill"></i>
+                        Add More
+
+                    </button>
+
                 </div>
             </div>
 
-            <!-- Selected File Preview Card -->
-            <div class="selected-file-card" id="selectedFileCard" style="display: none;">
-                <div class="preview-container" id="previewContainer">
-                    <img id="imagePreview" src="" alt="Preview" style="display: none;">
-                    <div id="documentIcon" class="document-icon" style="display: none;">
-                        <i class="bi bi-file-earmark-text-fill"></i>
-                    </div>
-                </div>
-                <div class="file-info">
-                    <p id="selectedFileName" class="file-name">No file selected</p>
-                    <span id="selectedFileSize" class="file-size">0 KB</span>
-                </div>
-                <button type="button" id="removeFileBtn" class="remove-file-btn" title="Remove selected file">
-                    <i class="bi bi-x-lg"></i>
-                </button>
-            </div>
+            <!-- Selected Files Preview Container -->
+            <div class="selected-files-container" id="selectedFilesContainer" style="display: none;"></div>
 
             <!-- Status Message -->
             <div id="uploadStatus" class="upload-status" style="display: none;"></div>

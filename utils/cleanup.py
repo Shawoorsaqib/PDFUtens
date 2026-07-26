@@ -90,3 +90,21 @@ def cleanup_old_files(max_age_seconds=3600):
                     current_app.logger.error(f"Error scanning folder '{folder}' for stale files: {e}")
                 except RuntimeError:
                     print(f"Error scanning folder '{folder}' for stale files: {e}")
+
+
+def delete_files(file_paths):
+    """
+    Deletes multiple files safely.
+    """
+    if not file_paths:
+        return
+
+    for path in file_paths:
+        if os.path.exists(path):
+            try:
+                os.remove(path)
+            except Exception as e:
+                try:
+                    current_app.logger.error(f"Failed to delete '{path}': {e}")
+                except RuntimeError:
+                    print(f"Failed to delete '{path}': {e}")

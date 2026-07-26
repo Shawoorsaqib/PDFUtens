@@ -2,14 +2,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const uploadForm = document.getElementById("uploadForm");
     const fileInput = document.getElementById("fileInput");
     const chooseButton = document.getElementById("chooseFileBtn");
+    const addMoreBtn = document.getElementById("addMoreBtn");
     const uploadContent = document.getElementById("uploadContent");
-    const selectedFileCard = document.getElementById("selectedFileCard");
-    const selectedFileName = document.getElementById("selectedFileName");
-    const selectedFileSize = document.getElementById("selectedFileSize");
-    const previewContainer = document.getElementById("previewContainer");
-    const imagePreview = document.getElementById("imagePreview");
-    const documentIcon = document.getElementById("documentIcon");
-    const removeFileBtn = document.getElementById("removeFileBtn");
+    const selectedFilesContainer = document.getElementById("selectedFilesContainer");
     const uploadActions = document.getElementById("uploadActions");
     const uploadBtn = document.getElementById("uploadBtn");
     const uploadStatus = document.getElementById("uploadStatus");
@@ -19,6 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const uploadBox = document.querySelector(".upload-box");
 
     if (!uploadForm || !fileInput || !uploadBox) return;
+
+    let selectedFiles = [];
 
     // Helper: format file size
     function formatBytes(bytes, decimals = 2) {
@@ -34,6 +31,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (chooseButton) {
         chooseButton.addEventListener("click", (e) => {
             e.stopPropagation();
+            fileInput.value = "";
+            fileInput.click();
+        });
+    }
+
+    if (addMoreBtn) {
+        addMoreBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            fileInput.value = "";
             fileInput.click();
         });
     }
@@ -43,41 +49,94 @@ document.addEventListener("DOMContentLoaded", () => {
         if (
             e.target.closest("button") ||
             e.target.closest("a") ||
-            e.target.closest("#removeFileBtn") ||
+            e.target.closest(".remove-file-btn") ||
+            e.target.closest(".selected-file-card") ||
             (successCard && successCard.style.display !== "none")
         ) {
             return;
         }
+        fileInput.value = "";
         fileInput.click();
     });
 
     // Handle File Selection
-    fileInput.addEventListener("change", handleFileSelection);
-
-    function handleFileSelection() {
+    fileInput.addEventListener("change", () => {
         if (fileInput.files && fileInput.files.length > 0) {
-            const file = fileInput.files[0];
+            addFiles(Array.from(fileInput.files));
+        }
+    });
 
-            if (selectedFileName) selectedFileName.textContent = file.name;
-            if (selectedFileSize) selectedFileSize.textContent = formatBytes(file.size);
+    function addFiles(newFiles) {
+        newFiles.forEach(file => {
+            const isDuplicate = selectedFiles.some(f => f.name === file.name && f.size === file.size && f.lastModified === file.lastModified);
+            if (!isDuplicate) {
+                selectedFiles.push(file);
+            }
+        });
+        renderSelectedFiles();
+    }
+
+    function removeFile(index) {
+        selectedFiles.splice(index, 1);
+        renderSelectedFiles();
+    }
+
+    function resetFileSelection() {
+        selectedFiles = [];
+        fileInput.value = "";
+        renderSelectedFiles();
+    }
+
+    function renderSelectedFiles() {
+        if (!selectedFilesContainer) return;
+        selectedFilesContainer.innerHTML = "";
+
+        if (selectedFiles.length === 0) {
+            selectedFilesContainer.style.display = "none";
+            if (uploadActions) uploadActions.style.display = "none";
+            if (uploadContent) uploadContent.classList.remove("file-selected");
+            if (addMoreBtn) addMoreBtn.style.display = "none";
+            if (uploadStatus) {
+                uploadStatus.style.display = "none";
+                uploadStatus.textContent = "";
+                uploadStatus.className = "upload-status";
+            }
+            return;
+        }
+
+        selectedFilesContainer.style.display = "flex";
+        if (uploadActions) uploadActions.style.display = "block";
+        if (uploadContent) uploadContent.classList.add("file-selected");
+        if (addMoreBtn) addMoreBtn.style.display = "inline-flex";
+
+        if (uploadStatus) {
+            uploadStatus.style.display = "none";
+            uploadStatus.textContent = "";
+            uploadStatus.className = "upload-status";
+        }
+
+        selectedFiles.forEach((file, index) => {
+            const card = document.createElement("div");
+            card.className = "selected-file-card";
+
+            const previewContainer = document.createElement("div");
+            previewContainer.className = "preview-container";
 
             if (file.type.startsWith("image/")) {
+                const img = document.createElement("img");
+                img.alt = file.name;
+                img.style.display = "block";
                 const reader = new FileReader();
-                reader.onload = function (e) {
-                    if (imagePreview) {
-                        imagePreview.src = e.target.result;
-                        imagePreview.style.display = "block";
-                    }
-                    if (documentIcon) documentIcon.style.display = "none";
-                    if (previewContainer) previewContainer.style.display = "block";
+                reader.onload = (e) => {
+                    img.src = e.target.result;
                 };
                 reader.readAsDataURL(file);
+                previewContainer.appendChild(img);
             } else {
-                if (imagePreview) {
-                    imagePreview.src = "";
-                    imagePreview.style.display = "none";
-                }
-                
+                const docIcon = document.createElement("div");
+                docIcon.className = "document-icon";
+                docIcon.style.display = "flex";
+
                 const ext = file.name.split('.').pop().toLowerCase();
                 let iconClass = "bi-file-earmark-text-fill";
                 if (ext === "pdf") iconClass = "bi-file-earmark-pdf-fill";
@@ -85,52 +144,39 @@ document.addEventListener("DOMContentLoaded", () => {
                 else if (["xls", "xlsx"].includes(ext)) iconClass = "bi-file-earmark-excel-fill";
                 else if (["ppt", "pptx"].includes(ext)) iconClass = "bi-file-earmark-ppt-fill";
 
-                if (documentIcon) {
-                    documentIcon.innerHTML = `<i class="bi ${iconClass}"></i>`;
-                    documentIcon.style.display = "flex";
-                }
-                if (previewContainer) previewContainer.style.display = "block";
+                docIcon.innerHTML = `<i class="bi ${iconClass}"></i>`;
+                previewContainer.appendChild(docIcon);
             }
 
-            if (selectedFileCard) selectedFileCard.style.display = "flex";
-            if (uploadActions) uploadActions.style.display = "block";
-            if (uploadContent) uploadContent.classList.add("file-selected");
+            const fileInfo = document.createElement("div");
+            fileInfo.className = "file-info";
 
-            if (uploadStatus) {
-                uploadStatus.style.display = "none";
-                uploadStatus.textContent = "";
-                uploadStatus.className = "upload-status";
-            }
-        } else {
-            resetFileSelection();
-        }
-    }
+            const fileNameP = document.createElement("p");
+            fileNameP.className = "file-name";
+            fileNameP.textContent = file.name;
 
-    function resetFileSelection() {
-        fileInput.value = "";
-        if (selectedFileCard) selectedFileCard.style.display = "none";
-        if (uploadActions) uploadActions.style.display = "none";
-        if (uploadContent) uploadContent.classList.remove("file-selected");
-        
-        if (previewContainer) previewContainer.style.display = "none";
-        if (imagePreview) {
-            imagePreview.src = "";
-            imagePreview.style.display = "none";
-        }
-        if (documentIcon) documentIcon.style.display = "none";
+            const fileSizeSpan = document.createElement("span");
+            fileSizeSpan.className = "file-size";
+            fileSizeSpan.textContent = formatBytes(file.size);
 
-        if (uploadStatus) {
-            uploadStatus.style.display = "none";
-            uploadStatus.textContent = "";
-            uploadStatus.className = "upload-status";
-        }
-    }
+            fileInfo.appendChild(fileNameP);
+            fileInfo.appendChild(fileSizeSpan);
 
-    // Remove file button handler
-    if (removeFileBtn) {
-        removeFileBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            resetFileSelection();
+            const removeBtn = document.createElement("button");
+            removeBtn.type = "button";
+            removeBtn.className = "remove-file-btn";
+            removeBtn.title = "Remove selected file";
+            removeBtn.innerHTML = `<i class="bi bi-x-lg"></i>`;
+            removeBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                removeFile(index);
+            });
+
+            card.appendChild(previewContainer);
+            card.appendChild(fileInfo);
+            card.appendChild(removeBtn);
+
+            selectedFilesContainer.appendChild(card);
         });
     }
 
@@ -148,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    uploadBox.addEventListener("dragenter", (e) => {
+    uploadBox.addEventListener("dragenter", () => {
         dragCounter++;
         uploadBox.classList.add("drag-over");
     });
@@ -160,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    uploadBox.addEventListener("dragleave", (e) => {
+    uploadBox.addEventListener("dragleave", () => {
         dragCounter--;
         if (dragCounter <= 0) {
             dragCounter = 0;
@@ -173,11 +219,8 @@ document.addEventListener("DOMContentLoaded", () => {
         uploadBox.classList.remove("drag-over");
 
         const dt = e.dataTransfer;
-        const files = dt.files;
-
-        if (files && files.length > 0) {
-            fileInput.files = files;
-            handleFileSelection();
+        if (dt.files && dt.files.length > 0) {
+            addFiles(Array.from(dt.files));
         }
     });
 
@@ -185,17 +228,19 @@ document.addEventListener("DOMContentLoaded", () => {
     uploadForm.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        if (!fileInput.files || fileInput.files.length === 0) {
+        if (selectedFiles.length === 0) {
             if (uploadStatus) {
                 uploadStatus.style.display = "block";
-                uploadStatus.textContent = "⚠ Please choose a file first.";
+                uploadStatus.textContent = "⚠ Please choose at least one file first.";
                 uploadStatus.className = "upload-status upload-error";
             }
             return;
         }
 
         const formData = new FormData();
-        formData.append("file", fileInput.files[0]);
+        selectedFiles.forEach(file => {
+            formData.append("file", file);
+        });
 
         if (uploadBtn) {
             uploadBtn.disabled = true;
@@ -204,7 +249,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (uploadStatus) {
             uploadStatus.style.display = "block";
-            uploadStatus.textContent = "Uploading file, please wait...";
+            uploadStatus.textContent = "Uploading file(s), please wait...";
             uploadStatus.className = "upload-status upload-loading";
         }
 
@@ -225,7 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 if (uploadContent) uploadContent.style.display = "none";
-                if (selectedFileCard) selectedFileCard.style.display = "none";
+                if (selectedFilesContainer) selectedFilesContainer.style.display = "none";
                 if (uploadActions) uploadActions.style.display = "none";
 
                 if (successCard) {
@@ -277,4 +322,4 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-});
+});
