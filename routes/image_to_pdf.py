@@ -18,10 +18,10 @@ from utils.file_handler import save_uploaded_file
 from utils.converters import image_to_pdf
 from utils.cleanup import delete_file_pair, cleanup_old_files
 
-tools_bp = Blueprint("tools", __name__)
+image_to_pdf_bp = Blueprint("image_to_pdf", __name__)
 
 
-@tools_bp.route("/upload", methods=["POST"])
+@image_to_pdf_bp.route("/upload", methods=["POST"])
 def upload_file():
     """
     Uploads a file after validation and converts it to PDF.
@@ -80,7 +80,7 @@ def upload_file():
     })
 
 
-@tools_bp.route("/download/<filename>")
+@image_to_pdf_bp.route("/download/<filename>")
 def download_file(filename):
     """
     Serves the converted file for download, then deletes both the 

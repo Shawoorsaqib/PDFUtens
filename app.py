@@ -1,13 +1,13 @@
 from flask import Flask, render_template
 import os
 
-from routes.tools import tools_bp
+from routes.image_to_pdf import image_to_pdf_bp
 
 import config
 
 
 app = Flask(__name__)
-app.register_blueprint(tools_bp)
+app.register_blueprint(image_to_pdf_bp)
 
 app.config["UPLOAD_FOLDER"] = config.UPLOAD_FOLDER
 app.config["OUTPUT_FOLDER"] = config.OUTPUT_FOLDER
