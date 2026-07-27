@@ -1,6 +1,7 @@
 import io
 from flask import (
     Blueprint,
+    render_template,
     request,
     jsonify,
     send_file,
@@ -15,10 +16,16 @@ from utils.validators import (
     is_allowed_document
 )
 from utils.file_handler import save_uploaded_file
-from utils.converters import image_to_pdf, images_to_pdf
+from utils.converters import image_to_pdf as convert_image_to_pdf, images_to_pdf
 from utils.cleanup import delete_file_pair, cleanup_old_files
 
 image_to_pdf_bp = Blueprint("image_to_pdf", __name__)
+
+
+@image_to_pdf_bp.route("/image-to-pdf")
+def image_to_pdf():
+    """Renders the Image to PDF tool page."""
+    return render_template("tools/image_to_pdf.html")
 
 
 @image_to_pdf_bp.route("/upload", methods=["POST"])

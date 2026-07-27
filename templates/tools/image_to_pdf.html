@@ -1,1 +1,62 @@
 
+{% extends "base.html" %}
+
+{% block title %}
+Image to PDF | PDF Utens
+{% endblock %}
+
+{% block content %}
+
+<section class="tool-hero">
+
+    <div class="container">
+
+        <h1>Image to PDF</h1>
+
+        <p>
+            Convert JPG, PNG, JPEG and WEBP images into a high-quality PDF document.
+        </p>
+
+    </div>
+
+</section>
+
+{% include "sections/upload.html" %}
+
+<section class="tool-features">
+
+    <div class="container">
+
+        <div class="tool-grid">
+
+            <div class="tool-card">
+                <i class="bi bi-images"></i>
+                <h3>Multiple Images</h3>
+                <p>Combine multiple images into a single PDF.</p>
+            </div>
+
+            <div class="tool-card">
+                <i class="bi bi-lightning-charge"></i>
+                <h3>Fast Conversion</h3>
+                <p>Create PDFs within seconds.</p>
+            </div>
+
+            <div class="tool-card">
+                <i class="bi bi-shield-check"></i>
+                <h3>Secure</h3>
+                <p>Uploaded files are automatically removed.</p>
+            </div>
+
+            <div class="tool-card">
+                <i class="bi bi-file-earmark-pdf"></i>
+                <h3>High Quality</h3>
+                <p>Original image quality is preserved.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

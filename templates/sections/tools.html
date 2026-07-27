@@ -15,7 +15,7 @@
         <div class="tools-grid">
 
             <!-- Card -->
-            <a href="#" class="tool-card">
+            <a href="{{ url_for('image_to_pdf.image_to_pdf') }}" class="tool-card">
 
                 <i class="bi bi-image"></i>
 
@@ -25,7 +25,7 @@
 
             </a>
 
-            <a href="#" class="tool-card">
+            <a href="{{ url_for('pdf_to_word.pdf_to_word') }}" class="tool-card">
 
                 <i class="bi bi-file-earmark-word"></i>
 
@@ -35,7 +35,7 @@
 
             </a>
 
-            <a href="/merge-pdf" class="tool-card">
+            <a href="{{ url_for('merge_pdf.merge_pdf') }}" class="tool-card">
 
                 <i class="bi bi-files"></i>
 
@@ -45,7 +45,7 @@
 
             </a>
 
-            <a href="#" class="tool-card">
+            <a href="{{ url_for('split_pdf.split_pdf') }}" class="tool-card">
 
                 <i class="bi bi-scissors"></i>
 

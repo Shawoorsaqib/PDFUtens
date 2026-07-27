@@ -1,1 +1,110 @@
+{% extends "base.html" %}
 
+{% block title %}
+Split PDF | PDF Utens
+{% endblock %}
+
+{% block content %}
+
+<section class="tool-page">
+    <div class="container">
+        <div class="tool-header text-center mb-4">
+            <h1>Split PDF</h1>
+            <p>Split your PDF into individual pages or extract custom page ranges quickly and securely.</p>
+        </div>
+
+        <form class="upload-box" id="splitForm" action="/split-pdf/upload" method="POST" enctype="multipart/form-data">
+
+            <!-- Main Dropzone Content -->
+            <div class="upload-content" id="uploadContent">
+                <i class="bi bi-scissors upload-icon"></i>
+                <h2>Select PDF File</h2>
+                <p>Choose a PDF file or drag & drop it here</p>
+                <small>Only .pdf files are supported</small>
+
+                <input type="file" name="file" id="splitFileInput" accept=".pdf" hidden>
+
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-primary" id="chooseSplitFileBtn">
+                        <i class="bi bi-folder2-open"></i> Choose PDF
+                    </button>
+                </div>
+            </div>
+
+            <!-- Selected File Container -->
+            <div class="selected-files-container" id="selectedFilesContainer" style="display: none;"></div>
+
+            <!-- Split Options Section -->
+            <div id="splitOptions" class="split-options-box" style="display: none;">
+                <h3><i class="bi bi-sliders"></i> Split Mode</h3>
+                
+                <div class="split-mode-group">
+                    <label class="radio-option">
+                        <input type="radio" name="splitMode" value="all" checked>
+                        <span><i class="bi bi-file-earmark-break"></i> Split Every Page</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="splitMode" value="range">
+                        <span><i class="bi bi-grid-3x3-gap-fill"></i> Custom Page Range</span>
+                    </label>
+                </div>
+
+                <div id="rangeSection" class="range-section" style="display: none;">
+                    <div class="range-inputs">
+                        <div class="range-field">
+                            <label for="fromPage">From Page</label>
+                            <input type="number" id="fromPage" min="1" placeholder="1">
+                        </div>
+                        <div class="range-field">
+                            <label for="toPage">To Page</label>
+                            <input type="number" id="toPage" min="1" placeholder="5">
+                        </div>
+                        <button type="button" id="addRangeBtn" class="btn btn-secondary">
+                            <i class="bi bi-plus-circle"></i> Add Range
+                        </button>
+                    </div>
+
+                    <div id="rangeList" class="range-list"></div>
+                </div>
+            </div>
+
+            <!-- Upload / Action Buttons -->
+            <div class="upload-actions" id="uploadActions" style="display: none;">
+                <div class="upload-buttons">
+                    <button type="button" class="btn btn-outline" id="changePdfBtn">
+                        <i class="bi bi-arrow-repeat"></i> Change File
+                    </button>
+                    <button type="submit" class="btn btn-success" id="splitSubmitBtn">
+                        <i class="bi bi-scissors"></i> Split PDF
+                    </button>
+                </div>
+            </div>
+
+            <!-- Status Message -->
+            <div id="uploadStatus" class="upload-status" style="display: none;"></div>
+
+            <!-- Success Card -->
+            <div id="successCard" class="success-card" style="display: none;">
+                <div class="success-icon">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <h3>PDF Split Successfully!</h3>
+                <p>Your split PDF document is ready for download.</p>
+
+                <div class="success-actions">
+                    <a id="downloadSplitBtn" href="#" class="btn btn-primary" download>
+                        <i class="bi bi-download"></i> Download Split PDF
+                    </a>
+                    <button id="splitAnotherBtn" type="button" class="btn btn-outline">
+                        <i class="bi bi-arrow-counterclockwise"></i> Split Another PDF
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</section>
+
+<script src="{{ url_for('static', filename='js/split.js') }}"></script>
+
+{% endblock %}

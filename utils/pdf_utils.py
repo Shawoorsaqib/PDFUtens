@@ -45,3 +45,111 @@ def merge_pdfs(pdf_paths, output_name=None):
 
     finally:
         merger.close()
+
+def split_pdf(pdf_path, split_mode="all", ranges=None, output_folder=None):
+    """
+    Split a PDF into individual single-page PDF files or extracted page ranges.
+
+    Args:
+        pdf_path (str): Path to the input PDF.
+        split_mode (str): 'all' (split every page) or 'range' (extract custom page ranges).
+        ranges (list, optional): List of dicts like [{'from': 1, 'to': 3}, ...] or tuples (start, end).
+        output_folder (str, optional): Custom folder where output will be written.
+
+    Returns:
+        tuple: (output_filename, output_path) - a ZIP file if multiple PDFs created, or a single PDF file.
+
+    Raises:
+        FileNotFoundError: If input PDF does not exist.
+        ValueError: If PDF cannot be read or range values are invalid.
+    """
+    import zipfile
+    import tempfile
+    import shutil
+    from pypdf import PdfReader
+
+    if not os.path.exists(pdf_path):
+        raise FileNotFoundError(f"PDF file not found: {pdf_path}")
+
+    try:
+        reader = PdfReader(pdf_path)
+        total_pages = len(reader.pages)
+        if total_pages == 0:
+            raise ValueError("The provided PDF file contains no pages.")
+    except Exception as e:
+        raise ValueError(f"Failed to read PDF file: {str(e)}")
+
+    temp_dir = tempfile.mkdtemp(prefix="split_work_")
+
+    try:
+        generated_files = []
+
+        if split_mode == "range" and ranges:
+            normalized_ranges = []
+            for item in ranges:
+                if isinstance(item, dict):
+                    start = int(item.get("from", item.get("start", 1)))
+                    end = int(item.get("to", item.get("end", start)))
+                elif isinstance(item, (list, tuple)) and len(item) >= 2:
+                    start, end = int(item[0]), int(item[1])
+                else:
+                    continue
+
+                if start < 1 or end > total_pages:
+                    raise ValueError(f"Page range ({start}-{end}) is out of bounds (1-{total_pages}).")
+                if start > end:
+                    raise ValueError(f"Start page ({start}) cannot be greater than end page ({end}).")
+
+                normalized_ranges.append((start, end))
+
+            if not normalized_ranges:
+                raise ValueError("No valid page ranges provided.")
+
+            for index, (start, end) in enumerate(normalized_ranges, start=1):
+                writer = PdfWriter()
+                for pg_num in range(start - 1, end):
+                    writer.add_page(reader.pages[pg_num])
+
+                if start == end:
+                    out_name = f"page_{start}.pdf"
+                else:
+                    out_name = f"pages_{start}_to_{end}.pdf"
+
+                out_path = os.path.join(temp_dir, out_name)
+                with open(out_path, "wb") as f:
+                    writer.write(f)
+                writer.close()
+                generated_files.append((out_name, out_path))
+
+        else:
+            # Default: split every page
+            for pg_num, page in enumerate(reader.pages, start=1):
+                writer = PdfWriter()
+                writer.add_page(page)
+                out_name = f"page_{pg_num}.pdf"
+                out_path = os.path.join(temp_dir, out_name)
+                with open(out_path, "wb") as f:
+                    writer.write(f)
+                writer.close()
+                generated_files.append((out_name, out_path))
+
+        dest_folder = output_folder or config.OUTPUT_FOLDER
+        os.makedirs(dest_folder, exist_ok=True)
+
+        if len(generated_files) == 1:
+            out_name, single_path = generated_files[0]
+            output_filename = f"split_{uuid.uuid4().hex[:12]}_{out_name}"
+            final_path = os.path.join(dest_folder, output_filename)
+            shutil.copy(single_path, final_path)
+            return output_filename, final_path
+        else:
+            output_filename = f"split_{uuid.uuid4().hex[:12]}.zip"
+            final_path = os.path.join(dest_folder, output_filename)
+            with zipfile.ZipFile(final_path, "w", zipfile.ZIP_DEFLATED) as zf:
+                for out_name, file_path in generated_files:
+                    zf.write(file_path, arcname=out_name)
+            return output_filename, final_path
+
+    finally:
+        if os.path.exists(temp_dir):
+            shutil.rmtree(temp_dir, ignore_errors=True)
