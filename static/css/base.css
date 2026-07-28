@@ -69,8 +69,9 @@
     --space-2xl: 3rem;
     --space-3xl: 5rem;
 
-    /* Navbar */
+    /* Navbar & Footer */
     --navbar-height: 80px;
+    --footer-bg: #0F172A;
 
     /* Transition */
     --transition: .3s ease;
@@ -78,6 +79,36 @@
     /* Container */
     --container-width: 1280px;
     --container-padding: 1.5rem;
+}
+
+[data-theme="dark"] {
+    /* Primary Colors */
+    --primary: #3B82F6;
+    --primary-dark: #2563EB;
+    --primary-light: #1E3A8A;
+
+    /* Secondary Colors */
+    --secondary: #F8FAFC;
+    --secondary-light: #CBD5E1;
+
+    /* Backgrounds */
+    --background: #0F172A;
+    --surface: #1E293B;
+    --surface-hover: #334155;
+    --footer-bg: #020617;
+
+    /* Text */
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --text-light: #64748B;
+
+    /* Borders */
+    --border: #334155;
+
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(0,0,0,.4);
+    --shadow-md: 0 8px 24px rgba(0,0,0,.5);
+    --shadow-lg: 0 16px 40px rgba(0,0,0,.6);
 }
 
 /* Reset & Global Styles */

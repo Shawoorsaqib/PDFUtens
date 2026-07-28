@@ -35,14 +35,17 @@ def _log_error(msg, exc=None):
 
 def _safe_remove_file(file_path):
     """
-    Safely removes a file, handling potential Windows file lock / permission errors gracefully.
+    Safely removes a file or directory, handling potential Windows file lock / permission errors gracefully.
     """
     if os.path.exists(file_path):
         try:
-            os.remove(file_path)
+            if os.path.isdir(file_path):
+                shutil.rmtree(file_path, ignore_errors=True)
+            else:
+                os.remove(file_path)
             return True
         except Exception as e:
-            _log_error(f"Failed to remove file '{file_path}'", e)
+            _log_error(f"Failed to remove item '{file_path}'", e)
             return False
     return False
 
@@ -59,16 +62,24 @@ def delete_file_pair(filename):
 
     # 1. Delete generated file in OUTPUT_FOLDER
     output_folder = _get_folder("OUTPUT_FOLDER")
-    if output_folder:
+    if output_folder and os.path.exists(output_folder):
         out_path = os.path.join(output_folder, filename)
         _safe_remove_file(out_path)
+
+        # Also search for any output files matching stem
+        try:
+            for fname in os.listdir(output_folder):
+                if fname == filename or os.path.splitext(fname)[0] == stem:
+                    _safe_remove_file(os.path.join(output_folder, fname))
+        except Exception as e:
+            _log_error(f"Failed scanning output folder for stem '{stem}'", e)
 
     # 2. Delete matching uploaded original file(s) in UPLOAD_FOLDER
     upload_folder = _get_folder("UPLOAD_FOLDER")
     if upload_folder and os.path.exists(upload_folder):
         try:
             clean_stem = stem
-            for prefix in ["merged_", "split_", "compressed_", "rotated_"]:
+            for prefix in ["merged_", "split_", "compressed_", "rotated_", "protected_", "unlocked_", "watermarked_", "cleaned_"]:
                 if clean_stem.startswith(prefix):
                     clean_stem = clean_stem[len(prefix):]
 
@@ -81,10 +92,10 @@ def delete_file_pair(filename):
             _log_error(f"Failed to delete uploaded files matching stem '{stem}'", e)
 
 
-def cleanup_old_files(max_age_seconds=3600):
+def cleanup_old_files(max_age_seconds=300):
     """
     Scans upload, output, and temp folders to delete files and directories older than max_age_seconds.
-    Defaults to 1 hour (3600 seconds) to remove abandoned files.
+    Defaults to 5 minutes (300 seconds) to purge abandoned output and temporary files promptly.
     """
     now = time.time()
     folders = [
@@ -101,14 +112,32 @@ def cleanup_old_files(max_age_seconds=3600):
                     try:
                         file_age = now - os.path.getmtime(fpath)
                         if file_age > max_age_seconds:
-                            if os.path.isdir(fpath):
-                                shutil.rmtree(fpath, ignore_errors=True)
-                            else:
-                                _safe_remove_file(fpath)
+                            _safe_remove_file(fpath)
                     except Exception as e:
                         _log_error(f"Failed to check/remove stale item '{fpath}'", e)
             except Exception as e:
                 _log_error(f"Error scanning folder '{folder}' for stale files", e)
+
+
+def purge_all_outputs():
+    """
+    Completely purges all files and directories in upload, output, and temp folders.
+    Useful on app startup or scheduled maintenance.
+    """
+    folders = [
+        _get_folder("UPLOAD_FOLDER"),
+        _get_folder("OUTPUT_FOLDER"),
+        _get_folder("TEMP_FOLDER")
+    ]
+
+    for folder in folders:
+        if folder and os.path.exists(folder):
+            try:
+                for fname in os.listdir(folder):
+                    fpath = os.path.join(folder, fname)
+                    _safe_remove_file(fpath)
+            except Exception as e:
+                _log_error(f"Error purging folder '{folder}'", e)
 
 
 def delete_files(file_paths):

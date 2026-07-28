@@ -96,6 +96,8 @@ Unlock PDF | PDF Utens
     </div>
 </section>
 
-<script src="{{ url_for('static', filename='js/unlock.js') }}"></script>
+{% endblock %}
 
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/unlock.js') }}"></script>
 {% endblock %}

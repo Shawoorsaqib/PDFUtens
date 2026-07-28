@@ -92,6 +92,8 @@ PDF to Word | PDF Utens
     </div>
 </section>
 
-<script src="{{ url_for('static', filename='js/pdf_to_word.js') }}"></script>
+{% endblock %}
 
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pdf_to_word.js') }}"></script>
 {% endblock %}

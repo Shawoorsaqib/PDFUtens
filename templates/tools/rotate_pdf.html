@@ -125,12 +125,13 @@ Rotate PDF | PDF Utens
                 <h3>100% Secure</h3>
                 <p>Your files are safely processed and automatically deleted.</p>
             </div>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- PDF.js Library for Client-side Rendering -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="{{ url_for('static', filename='js/rotate.js') }}"></script>
+{% endblock %}
 
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/rotate.js') }}"></script>
 {% endblock %}

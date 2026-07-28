@@ -17,7 +17,7 @@ function createToolUploader(options) {
         defaultOutputFilename = "result.pdf"
     } = options;
 
-    document.addEventListener("DOMContentLoaded", () => {
+    function init() {
         const uploadForm = document.getElementById(formId);
         const fileInput = document.getElementById(fileInputId);
         const chooseBtn = document.getElementById(chooseBtnId);
@@ -91,31 +91,38 @@ function createToolUploader(options) {
             }
 
             const sizeStr = formatBytes(selectedFile.size);
-            const ext = selectedFile.name.split('.').pop().toLowerCase();
-            let iconClass = "bi-file-earmark-pdf-fill";
-            if (["doc", "docx"].includes(ext)) iconClass = "bi-file-earmark-word-fill";
 
-            selectedFilesContainer.innerHTML = `
-                <div class="selected-file-card">
-                    <div class="document-icon" style="display: flex;">
-                        <i class="bi ${iconClass}"></i>
-                    </div>
-                    <div class="file-info">
-                        <p class="file-name">${selectedFile.name}</p>
-                        <span class="file-size">${sizeStr}</span>
-                    </div>
-                    <button class="remove-file-btn" id="removeFileBtn" type="button" title="Remove file">
-                        <i class="bi bi-x-lg"></i>
-                    </button>
-                </div>
+            const card = document.createElement("div");
+            card.className = "selected-file-card";
+
+            const previewContainer = document.createElement("div");
+            previewContainer.className = "preview-container active";
+
+            const fileInfo = document.createElement("div");
+            fileInfo.className = "file-info";
+            fileInfo.innerHTML = `
+                <p class="file-name">${selectedFile.name}</p>
+                <span class="file-size">${sizeStr}</span>
             `;
 
-            const removeBtn = document.getElementById("removeFileBtn");
-            if (removeBtn) {
-                removeBtn.addEventListener("click", (e) => {
-                    e.stopPropagation();
-                    removeFile();
-                });
+            const removeBtn = document.createElement("button");
+            removeBtn.className = "remove-file-btn";
+            removeBtn.type = "button";
+            removeBtn.title = "Remove file";
+            removeBtn.innerHTML = `<i class="bi bi-x-lg"></i>`;
+            removeBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                removeFile();
+            });
+
+            card.appendChild(previewContainer);
+            card.appendChild(fileInfo);
+            card.appendChild(removeBtn);
+
+            selectedFilesContainer.appendChild(card);
+
+            if (typeof renderFilePreview === "function") {
+                renderFilePreview(selectedFile, previewContainer);
             }
         }
 
@@ -267,5 +274,11 @@ function createToolUploader(options) {
                 }
             });
         }
-    });
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init);
+    } else {
+        init();
+    }
 }

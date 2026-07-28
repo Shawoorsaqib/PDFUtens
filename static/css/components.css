@@ -23,7 +23,7 @@
 .logo span {
     font-size: 1.6rem;
     font-weight: 700;
-    color: #1E293B;
+    color: var(--text-primary);
 }
 
 .navbar{
@@ -38,7 +38,7 @@
 
     height: var(--navbar-height);
 
-    background: rgba(255,255,255,.95);
+    background: var(--surface);
 
     backdrop-filter: blur(12px);
 
@@ -73,8 +73,61 @@
     color:var(--primary);
 }
 
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* ==========================================
+   Theme Toggle Button (Bootstrap / Modern)
+   ========================================== */
+.theme-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    background: var(--surface);
+    color: var(--text-primary);
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.theme-toggle-btn:hover {
+    background: var(--surface-hover);
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.theme-toggle-btn i {
+    font-size: 1.1rem;
+    color: #f59e0b;
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle-btn:hover i {
+    transform: rotate(15deg) scale(1.1);
+}
+
+[data-theme="dark"] .theme-toggle-btn i {
+    color: #fbbf24;
+}
+
+.mobile-theme-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.8rem 1.5rem;
+}
+
 .github-btn{
-    margin: 10px;
+    margin: 0;
     display:flex;
     align-items:center;
     gap:.5rem;
@@ -83,7 +136,7 @@
     padding:.75rem 1.25rem;
 
     background:var(--secondary);
-    color:white;
+    color:var(--background);
 
     border-radius:var(--radius-md);
 
@@ -200,11 +253,19 @@
 
 .footer{
 
-    background: var(--secondary);
+    background: var(--footer-bg, #0F172A);
 
-    color: white;
+    color: #ffffff;
 
     padding: 5rem 0 2rem;
+
+    border-top: 1px solid var(--border);
+
+    transition: var(--transition);
+}
+
+.footer .logo span {
+    color: #ffffff;
 }
 
 .footer-grid{
@@ -230,6 +291,8 @@
     margin-bottom: 1rem;
 
     font-size: 1.1rem;
+
+    color: #ffffff;
 }
 
 .footer-links ul{
@@ -363,16 +426,16 @@
 }
 
 /* ===========================
-   Image Preview
+   File & Document Previews
 =========================== */
 
 .preview-container{
 
     display:none;
 
-    width:56px;
+    width:64px;
 
-    height:56px;
+    height:64px;
 
     border-radius:var(--radius-md);
 
@@ -383,11 +446,19 @@
     background:#F8FAFC;
 
     flex-shrink: 0;
+
+    position: relative;
+
+    align-items: center;
+
+    justify-content: center;
+
+    box-shadow: inset 0 0 4px rgba(0,0,0,0.03);
 }
 
 .preview-container.active{
 
-    display:block;
+    display:flex;
 }
 
 .preview-container img{
@@ -397,6 +468,67 @@
     height:100%;
 
     object-fit:cover;
+}
+
+.pdf-thumbnail-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #ffffff;
+}
+
+.text-preview-card {
+    width: 100%;
+    height: 100%;
+    background: #f8fafc;
+    padding: 4px 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 0.65rem;
+    color: #475569;
+    overflow: hidden;
+}
+
+.text-preview-header {
+    font-weight: 700;
+    color: #2563eb;
+    font-size: 0.65rem;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.text-snippet {
+    font-family: monospace;
+    font-size: 0.55rem;
+    line-height: 1.1;
+    color: #64748b;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+}
+
+.doc-type-preview-card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    font-size: 1.5rem;
+    border-radius: var(--radius-md);
+}
+
+.doc-type-preview-card .doc-badge {
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .document-icon {
@@ -736,4 +868,95 @@
 
     flex-wrap:wrap;
 
+}
+
+/* ==========================================
+   Dark Theme Component Overrides
+   ========================================== */
+
+[data-theme="dark"] .navbar {
+    background: rgba(30, 41, 59, 0.95);
+}
+
+[data-theme="dark"] .mobile-menu {
+    background: var(--surface);
+}
+
+[data-theme="dark"] .selected-file-card,
+[data-theme="dark"] .text-preview-card,
+[data-theme="dark"] .tool-card,
+[data-theme="dark"] .split-card,
+[data-theme="dark"] .split-options-box,
+[data-theme="dark"] .range-item {
+    background: var(--surface);
+    border-color: var(--border);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .success-card {
+    background: var(--surface);
+    border-color: var(--border);
+}
+
+[data-theme="dark"] .document-icon {
+    background: #1e3a8a;
+    color: #60a5fa;
+}
+
+[data-theme="dark"] input[type="text"],
+[data-theme="dark"] input[type="number"],
+[data-theme="dark"] input[type="password"],
+[data-theme="dark"] select {
+    background: #0f172a;
+    color: #f8fafc;
+    border-color: #334155;
+}
+
+[data-theme="dark"] #canvasViewport {
+    background: rgba(15, 23, 42, 0.6) !important;
+    border-color: #334155 !important;
+}
+
+[data-theme="dark"] .rotation-toolbar {
+    background: rgba(30, 41, 59, 0.95) !important;
+    color: #f8fafc !important;
+}
+
+[data-theme="dark"] #angleBadge {
+    background: #1e3a8a !important;
+    color: #93c5fd !important;
+}
+
+[data-theme="dark"] #pdfCanvasContainer {
+    background: #0f172a !important;
+}
+
+[data-theme="dark"] .footer {
+    background: #020617;
+    border-top-color: #1e293b;
+}
+
+[data-theme="dark"] .footer .logo span {
+    color: #f8fafc;
+}
+
+[data-theme="dark"] .footer-brand p {
+    color: #94a3b8;
+}
+
+[data-theme="dark"] .footer-links h3 {
+    color: #f8fafc;
+}
+
+[data-theme="dark"] .footer-links a {
+    color: #94a3b8;
+}
+
+[data-theme="dark"] .footer-links a:hover {
+    color: #3b82f6;
+}
+
+[data-theme="dark"] .footer-bottom {
+    border-top-color: #1e293b;
+    color: #64748b;
 }

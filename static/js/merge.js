@@ -140,14 +140,13 @@ document.addEventListener("DOMContentLoaded", () => {
             badge.className = "file-order-badge";
             badge.textContent = index + 1;
 
-            // Icon Container
+            // Icon & Thumbnail Preview Container
             const previewContainer = document.createElement("div");
             previewContainer.className = "preview-container active";
 
-            const docIcon = document.createElement("div");
-            docIcon.className = "document-icon";
-            docIcon.innerHTML = `<i class="bi bi-file-earmark-pdf-fill"></i>`;
-            previewContainer.appendChild(docIcon);
+            if (typeof renderFilePreview === "function") {
+                renderFilePreview(file, previewContainer);
+            }
 
             // File Info
             const fileInfo = document.createElement("div");

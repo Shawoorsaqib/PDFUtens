@@ -120,6 +120,8 @@ Watermark PDF | PDF Utens
     </div>
 </section>
 
-<script src="{{ url_for('static', filename='js/watermark.js') }}"></script>
+{% endblock %}
 
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/watermark.js') }}"></script>
 {% endblock %}

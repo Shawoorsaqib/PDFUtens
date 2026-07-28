@@ -181,10 +181,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const previewContainer = document.createElement("div");
         previewContainer.className = "preview-container active";
 
-        const docIcon = document.createElement("div");
-        docIcon.className = "document-icon";
-        docIcon.innerHTML = `<i class="bi bi-file-earmark-pdf-fill"></i>`;
-        previewContainer.appendChild(docIcon);
+        if (typeof renderFilePreview === "function") {
+            renderFilePreview(selectedFile, previewContainer);
+        }
 
         const fileInfo = document.createElement("div");
         fileInfo.className = "file-info";

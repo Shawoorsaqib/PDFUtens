@@ -120,32 +120,10 @@ document.addEventListener("DOMContentLoaded", () => {
             card.className = "selected-file-card";
 
             const previewContainer = document.createElement("div");
-            previewContainer.className = "preview-container";
+            previewContainer.className = "preview-container active";
 
-            if (file.type.startsWith("image/")) {
-                const img = document.createElement("img");
-                img.alt = file.name;
-                img.style.display = "block";
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    img.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-                previewContainer.appendChild(img);
-            } else {
-                const docIcon = document.createElement("div");
-                docIcon.className = "document-icon";
-                docIcon.style.display = "flex";
-
-                const ext = file.name.split('.').pop().toLowerCase();
-                let iconClass = "bi-file-earmark-text-fill";
-                if (ext === "pdf") iconClass = "bi-file-earmark-pdf-fill";
-                else if (["doc", "docx"].includes(ext)) iconClass = "bi-file-earmark-word-fill";
-                else if (["xls", "xlsx"].includes(ext)) iconClass = "bi-file-earmark-excel-fill";
-                else if (["ppt", "pptx"].includes(ext)) iconClass = "bi-file-earmark-ppt-fill";
-
-                docIcon.innerHTML = `<i class="bi ${iconClass}"></i>`;
-                previewContainer.appendChild(docIcon);
+            if (typeof renderFilePreview === "function") {
+                renderFilePreview(file, previewContainer);
             }
 
             const fileInfo = document.createElement("div");

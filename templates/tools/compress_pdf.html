@@ -92,6 +92,8 @@ Compress PDF | PDF Utens
     </div>
 </section>
 
-<script src="{{ url_for('static', filename='js/compress.js') }}"></script>
+{% endblock %}
 
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/compress.js') }}"></script>
 {% endblock %}

@@ -99,6 +99,8 @@ Remove Watermark | PDF Utens
     </div>
 </section>
 
-<script src="{{ url_for('static', filename='js/remove_watermark.js') }}"></script>
+{% endblock %}
 
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/remove_watermark.js') }}"></script>
 {% endblock %}
