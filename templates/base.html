@@ -30,8 +30,8 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
                 <ul class="nav-links">
 
                     <li><a href="/">Home</a></li>
-                    <li><a href="#">Tools</a></li>
-                    <li><a href="#">About</a></li>
+                    <li><a href="{{ url_for('tools.tools_page') }}">Tools</a></li>
+                    <li><a href="/#about">About</a></li>
 
                 </ul>
 
@@ -63,9 +63,9 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 
                 <a href="/">Home</a>
 
-                <a href="#">Tools</a>
+                <a href="{{ url_for('tools.tools_page') }}">Tools</a>
 
-                <a href="#">About</a>
+                <a href="/#about">About</a>
 
                 <a href="https://github.com/Shawoorsaqib/PDFUtens" target="_blank">
 

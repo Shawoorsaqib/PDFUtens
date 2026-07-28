@@ -1,1 +1,97 @@
+{% extends "base.html" %}
 
+{% block title %}
+Compress PDF | PDF Utens
+{% endblock %}
+
+{% block content %}
+
+<section class="tool-hero">
+    <div class="container">
+        <div class="tool-hero-content">
+            <h1>Compress PDF</h1>
+            <p>Reduce PDF file size without sacrificing document quality.</p>
+        </div>
+    </div>
+</section>
+
+<section class="upload-section" id="upload">
+    <div class="container">
+        <form class="upload-box" id="compressPdfForm" action="/compress-pdf/upload" method="POST" enctype="multipart/form-data">
+
+            <!-- Main Dropzone Content -->
+            <div class="upload-content" id="uploadContent">
+                <i class="bi bi-file-earmark-zip upload-icon"></i>
+                <h2>Select PDF File</h2>
+                <p>Choose a PDF file or drag & drop it here</p>
+                <small>Supports .pdf files</small>
+
+                <input type="file" name="file" id="compressPdfFileInput" accept=".pdf" hidden>
+
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-primary" id="chooseCompressBtn">
+                        <i class="bi bi-folder2-open"></i> Choose PDF File
+                    </button>
+                </div>
+            </div>
+
+            <!-- Selected File Preview Container -->
+            <div class="selected-files-container" id="selectedFilesContainer" style="display: none;"></div>
+
+            <!-- Status Message -->
+            <div id="uploadStatus" class="upload-status" style="display: none;"></div>
+
+            <!-- Upload Action Button -->
+            <div class="upload-actions" id="uploadActions" style="display: none;">
+                <button type="submit" class="btn btn-success" id="compressPdfSubmitBtn">
+                    <i class="bi bi-file-earmark-zip-fill"></i> Compress PDF
+                </button>
+            </div>
+
+            <!-- Success Card -->
+            <div id="successCard" class="success-card" style="display: none;">
+                <div class="success-icon">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <h3>Compression Complete!</h3>
+                <p>Your compressed PDF file is ready for download.</p>
+
+                <div class="success-actions">
+                    <a id="downloadCompressedBtn" href="#" class="btn btn-primary" download>
+                        <i class="bi bi-download"></i> Download Compressed PDF
+                    </a>
+                    <button id="convertAnotherBtn" type="button" class="btn btn-outline">
+                        <i class="bi bi-arrow-counterclockwise"></i> Compress Another
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</section>
+
+<section class="tool-features">
+    <div class="container">
+        <div class="tool-grid">
+            <div class="tool-card">
+                <i class="bi bi-lightning-charge"></i>
+                <h3>Smart Compression</h3>
+                <p>Optimizes content streams while preserving visual clarity.</p>
+            </div>
+            <div class="tool-card">
+                <i class="bi bi-hdd-network"></i>
+                <h3>Smaller File Size</h3>
+                <p>Make your PDFs easier to email, share, and upload.</p>
+            </div>
+            <div class="tool-card">
+                <i class="bi bi-shield-check"></i>
+                <h3>100% Secure</h3>
+                <p>Files are processed locally and deleted automatically.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="{{ url_for('static', filename='js/compress.js') }}"></script>
+
+{% endblock %}

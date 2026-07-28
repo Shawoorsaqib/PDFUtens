@@ -1,1 +1,136 @@
+{% extends "base.html" %}
 
+{% block title %}
+Rotate PDF | PDF Utens
+{% endblock %}
+
+{% block content %}
+
+<section class="tool-hero">
+    <div class="container">
+        <div class="tool-hero-content">
+            <h1>Rotate PDF</h1>
+            <p>Rotate pages in your PDF document permanently with real-time visual preview.</p>
+        </div>
+    </div>
+</section>
+
+<section class="upload-section" id="upload">
+    <div class="container">
+        <form class="upload-box" id="rotatePdfForm" action="/rotate-pdf/upload" method="POST" enctype="multipart/form-data">
+
+            <!-- Main Dropzone Content -->
+            <div class="upload-content" id="uploadContent">
+                <i class="bi bi-arrow-clockwise upload-icon"></i>
+                <h2>Select PDF File</h2>
+                <p>Choose a PDF file or drag & drop it here</p>
+                <small>Supports .pdf files</small>
+
+                <input type="file" name="file" id="rotatePdfFileInput" accept=".pdf" hidden>
+
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-primary" id="chooseRotateBtn">
+                        <i class="bi bi-folder2-open"></i> Choose PDF File
+                    </button>
+                </div>
+            </div>
+
+            <!-- Selected File & Interactive Rotation Preview Container -->
+            <div class="selected-files-container" id="selectedFilesContainer" style="display: none; flex-direction: column; align-items: center; justify-content: center; gap: 20px; width: 100%;">
+                
+                <!-- Interactive Controls Header -->
+                <div class="rotation-toolbar" style="display: flex; align-items: center; justify-content: center; gap: 15px; background: rgba(255,255,255,0.9); padding: 12px 24px; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); flex-wrap: wrap;">
+                    <button type="button" class="btn btn-outline" id="rotateLeftBtn" style="border-radius: 30px; padding: 8px 18px;">
+                        <i class="bi bi-arrow-counterclockwise"></i> Rotate Left (90°)
+                    </button>
+                    
+                    <div style="font-weight: 700; font-size: 1.1rem; color: #2b3674; padding: 0 10px; background: #eef2ff; border-radius: 20px; padding: 6px 16px;">
+                        Angle: <span id="angleBadge">0°</span>
+                    </div>
+                    
+                    <button type="button" class="btn btn-outline" id="rotateRightBtn" style="border-radius: 30px; padding: 8px 18px;">
+                        <i class="bi bi-arrow-clockwise"></i> Rotate Right (90°)
+                    </button>
+
+                    <button type="button" class="remove-file-btn" id="removeFileBtn" title="Remove PDF file" style="margin-left: 10px;">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+
+                <!-- Visual Page Rotation Canvas Container -->
+                <div id="canvasViewport" style="width: 100%; max-width: 450px; min-height: 380px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 30px; background: rgba(245, 247, 255, 0.6); border-radius: 16px; border: 2px dashed #d1d5db;">
+                    <div id="pdfCanvasContainer" style="transform: rotate(0deg); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border-radius: 8px; background: #ffffff;">
+                        <canvas id="pdfPreviewCanvas" style="display: block; border-radius: 8px; max-width: 100%; max-height: 400px;"></canvas>
+                    </div>
+                </div>
+
+                <!-- Hidden Angle Select for Form Data Sync -->
+                <select id="rotationAngleSelect" name="angle" style="display: none;">
+                    <option value="0">0°</option>
+                    <option value="90">90° Clockwise</option>
+                    <option value="180">180° Flip</option>
+                    <option value="270">270° Counter-Clockwise</option>
+                </select>
+
+                <p id="fileNameDisplay" style="font-weight: 600; color: #475569; margin: 0;"></p>
+            </div>
+
+            <!-- Status Message -->
+            <div id="uploadStatus" class="upload-status" style="display: none;"></div>
+
+            <!-- Upload Action Button -->
+            <div class="upload-actions" id="uploadActions" style="display: none;">
+                <button type="submit" class="btn btn-success" id="rotatePdfSubmitBtn" style="padding: 12px 32px; font-size: 1.1rem; border-radius: 30px;">
+                    <i class="bi bi-arrow-clockwise"></i> Apply Rotation & Download
+                </button>
+            </div>
+
+            <!-- Success Card -->
+            <div id="successCard" class="success-card" style="display: none;">
+                <div class="success-icon">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <h3>Rotation Complete!</h3>
+                <p>Your rotated PDF document is ready for download.</p>
+
+                <div class="success-actions">
+                    <a id="downloadRotatedBtn" href="#" class="btn btn-primary" download>
+                        <i class="bi bi-download"></i> Download Rotated PDF
+                    </a>
+                    <button id="convertAnotherBtn" type="button" class="btn btn-outline">
+                        <i class="bi bi-arrow-counterclockwise"></i> Rotate Another
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</section>
+
+<section class="tool-features">
+    <div class="container">
+        <div class="tool-grid">
+            <div class="tool-card">
+                <i class="bi bi-eye"></i>
+                <h3>Real-Time Preview</h3>
+                <p>See your PDF page rotate visually before saving.</p>
+            </div>
+            <div class="tool-card">
+                <i class="bi bi-arrow-clockwise"></i>
+                <h3>Precise Control</h3>
+                <p>Rotate clockwise or counter-clockwise at 90° increments.</p>
+            </div>
+            <div class="tool-card">
+                <i class="bi bi-shield-check"></i>
+                <h3>100% Secure</h3>
+                <p>Your files are safely processed and automatically deleted.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PDF.js Library for Client-side Rendering -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="{{ url_for('static', filename='js/rotate.js') }}"></script>
+
+{% endblock %}

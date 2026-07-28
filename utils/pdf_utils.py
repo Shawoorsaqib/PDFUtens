@@ -1,6 +1,6 @@
 import os
 import uuid
-from pypdf import PdfWriter, errors
+from pypdf import PdfWriter, PdfReader, errors
 import config
 
 
@@ -46,6 +46,7 @@ def merge_pdfs(pdf_paths, output_name=None):
     finally:
         merger.close()
 
+
 def split_pdf(pdf_path, split_mode="all", ranges=None, output_folder=None):
     """
     Split a PDF into individual single-page PDF files or extracted page ranges.
@@ -66,7 +67,6 @@ def split_pdf(pdf_path, split_mode="all", ranges=None, output_folder=None):
     import zipfile
     import tempfile
     import shutil
-    from pypdf import PdfReader
 
     if not os.path.exists(pdf_path):
         raise FileNotFoundError(f"PDF file not found: {pdf_path}")
@@ -153,3 +153,64 @@ def split_pdf(pdf_path, split_mode="all", ranges=None, output_folder=None):
     finally:
         if os.path.exists(temp_dir):
             shutil.rmtree(temp_dir, ignore_errors=True)
+
+
+def compress_pdf_file(pdf_path, output_name=None):
+    """
+    Compress content streams & image garbage collection of a PDF file to reduce size.
+    """
+    if not os.path.exists(pdf_path):
+        raise FileNotFoundError(f"PDF file not found: {pdf_path}")
+
+    stem = os.path.splitext(os.path.basename(pdf_path))[0]
+    output_filename = output_name or f"{stem}.pdf"
+    output_path = os.path.join(config.OUTPUT_FOLDER, output_filename)
+
+    try:
+        import fitz
+        doc = fitz.open(pdf_path)
+        doc.save(output_path, garbage=4, deflate=True, clean=True)
+        doc.close()
+        return output_filename, output_path
+    except Exception:
+        pass
+
+    reader = PdfReader(pdf_path)
+    writer = PdfWriter()
+
+    for page in reader.pages:
+        page.compress_content_streams()
+        writer.add_page(page)
+
+    with open(output_path, "wb") as f:
+        writer.write(f)
+
+    writer.close()
+    return output_filename, output_path
+
+
+def rotate_pdf_file(pdf_path, rotation_angle=90, output_name=None):
+    """
+    Rotate all pages of a PDF file by specified angle (90, 180, 270).
+    """
+    if not os.path.exists(pdf_path):
+        raise FileNotFoundError(f"PDF file not found: {pdf_path}")
+
+    reader = PdfReader(pdf_path)
+    writer = PdfWriter()
+
+    angle = int(rotation_angle) % 360
+
+    for page in reader.pages:
+        page.rotate(angle)
+        writer.add_page(page)
+
+    stem = os.path.splitext(os.path.basename(pdf_path))[0]
+    output_filename = output_name or f"{stem}.pdf"
+    output_path = os.path.join(config.OUTPUT_FOLDER, output_filename)
+
+    with open(output_path, "wb") as f:
+        writer.write(f)
+
+    writer.close()
+    return output_filename, output_path

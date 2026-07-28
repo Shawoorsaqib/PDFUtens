@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}
+All PDF Tools | PDF Utens
+{% endblock %}
+
+{% block content %}
+
+<section class="tool-hero text-center">
+    <div class="container">
+        <div class="tool-hero-content">
+            <h1>All PDF Tools</h1>
+            <p>Explore our complete collection of free, fast, and secure PDF tools.</p>
+        </div>
+    </div>
+</section>
+
+<section class="tools py-5">
+    <div class="container">
+        
+        <!-- Category 1: Convert to PDF -->
+        <div class="section-title text-left mb-4">
+            <h2><i class="bi bi-file-earmark-pdf"></i> Convert to PDF</h2>
+            <p>Convert your images and office documents into PDF format.</p>
+        </div>
+
+        <div class="tools-grid mb-5">
+            <a href="{{ url_for('image_to_pdf.image_to_pdf') }}" class="tool-card">
+                <i class="bi bi-image"></i>
+                <h3>Image to PDF</h3>
+                <p>Convert JPG, PNG, JPEG, and WEBP images into high-quality PDFs.</p>
+            </a>
+
+            <a href="{{ url_for('word_to_pdf.word_to_pdf') }}" class="tool-card">
+                <i class="bi bi-file-earmark-pdf-fill"></i>
+                <h3>Word to PDF</h3>
+                <p>Convert DOCX and DOC documents into clean PDF files.</p>
+            </a>
+        </div>
+
+        <!-- Category 2: Convert from PDF -->
+        <div class="section-title text-left mb-4">
+            <h2><i class="bi bi-file-earmark-word"></i> Convert from PDF</h2>
+            <p>Export your PDF documents into editable formats.</p>
+        </div>
+
+        <div class="tools-grid mb-5">
+            <a href="{{ url_for('pdf_to_word.pdf_to_word') }}" class="tool-card">
+                <i class="bi bi-file-earmark-word"></i>
+                <h3>PDF to Word</h3>
+                <p>Convert PDF documents into fully editable Word (.docx) files.</p>
+            </a>
+        </div>
+
+        <!-- Category 3: Organize PDF -->
+        <div class="section-title text-left mb-4">
+            <h2><i class="bi bi-folder-symlink"></i> Organize PDF</h2>
+            <p>Combine multiple PDFs or extract specific pages.</p>
+        </div>
+
+        <div class="tools-grid mb-5">
+            <a href="{{ url_for('merge_pdf.merge_pdf') }}" class="tool-card">
+                <i class="bi bi-files"></i>
+                <h3>Merge PDF</h3>
+                <p>Combine multiple PDF documents into a single organized file.</p>
+            </a>
+
+            <a href="{{ url_for('split_pdf.split_pdf') }}" class="tool-card">
+                <i class="bi bi-scissors"></i>
+                <h3>Split PDF</h3>
+                <p>Extract specific pages or split pages into individual PDFs.</p>
+            </a>
+        </div>
+
+        <!-- Category 4: Edit PDF -->
+        <div class="section-title text-left mb-4">
+            <h2><i class="bi bi-pencil-square"></i> Edit PDF</h2>
+            <p>Modify and reorient pages in your PDF files.</p>
+        </div>
+
+        <div class="tools-grid mb-5">
+            <a href="{{ url_for('rotate_pdf.rotate_pdf') }}" class="tool-card">
+                <i class="bi bi-arrow-clockwise"></i>
+                <h3>Rotate PDF</h3>
+                <p>Rotate pages 90°, 180°, or 270° clockwise permanently.</p>
+            </a>
+        </div>
+
+        <!-- Category 5: PDF Security & Optimization -->
+        <div class="section-title text-left mb-4">
+            <h2><i class="bi bi-shield-check"></i> PDF Security & Optimization</h2>
+            <p>Compress and optimize your PDF files for secure sharing and storage.</p>
+        </div>
+
+        <div class="tools-grid">
+            <a href="{{ url_for('compress_pdf.compress_pdf') }}" class="tool-card">
+                <i class="bi bi-file-earmark-zip"></i>
+                <h3>Compress PDF</h3>
+                <p>Reduce PDF file size without sacrificing document quality.</p>
+            </a>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

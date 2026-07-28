@@ -1,1 +1,97 @@
+{% extends "base.html" %}
 
+{% block title %}
+Word to PDF | PDF Utens
+{% endblock %}
+
+{% block content %}
+
+<section class="tool-hero">
+    <div class="container">
+        <div class="tool-hero-content">
+            <h1>Word to PDF</h1>
+            <p>Convert your DOCX and DOC documents into high-quality PDF files quickly and securely.</p>
+        </div>
+    </div>
+</section>
+
+<section class="upload-section" id="upload">
+    <div class="container">
+        <form class="upload-box" id="wordToPdfForm" action="/word-to-pdf/upload" method="POST" enctype="multipart/form-data">
+
+            <!-- Main Dropzone Prompt Content -->
+            <div class="upload-content" id="uploadContent">
+                <i class="bi bi-file-earmark-pdf upload-icon"></i>
+                <h2>Select Word Document</h2>
+                <p>Choose a DOCX or DOC file or drag & drop it here</p>
+                <small>Supports .docx and .doc files</small>
+
+                <input type="file" name="file" id="wordToPdfFileInput" accept=".doc,.docx" hidden>
+
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-primary" id="chooseWordBtn">
+                        <i class="bi bi-folder2-open"></i> Choose Word File
+                    </button>
+                </div>
+            </div>
+
+            <!-- Selected File Preview Container -->
+            <div class="selected-files-container" id="selectedFilesContainer" style="display: none;"></div>
+
+            <!-- Status Message -->
+            <div id="uploadStatus" class="upload-status" style="display: none;"></div>
+
+            <!-- Upload Action Button -->
+            <div class="upload-actions" id="uploadActions" style="display: none;">
+                <button type="submit" class="btn btn-success" id="wordToPdfSubmitBtn">
+                    <i class="bi bi-file-earmark-pdf-fill"></i> Convert to PDF
+                </button>
+            </div>
+
+            <!-- Success Card -->
+            <div id="successCard" class="success-card" style="display: none;">
+                <div class="success-icon">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <h3>Conversion Complete!</h3>
+                <p>Your PDF document has been generated successfully.</p>
+
+                <div class="success-actions">
+                    <a id="downloadPdfBtn" href="#" class="btn btn-primary" download>
+                        <i class="bi bi-download"></i> Download PDF
+                    </a>
+                    <button id="convertAnotherBtn" type="button" class="btn btn-outline">
+                        <i class="bi bi-arrow-counterclockwise"></i> Convert Another
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</section>
+
+<section class="tool-features">
+    <div class="container">
+        <div class="tool-grid">
+            <div class="tool-card">
+                <i class="bi bi-lightning-charge"></i>
+                <h3>Fast Conversion</h3>
+                <p>Convert your Word files into PDF documents in seconds.</p>
+            </div>
+            <div class="tool-card">
+                <i class="bi bi-file-earmark-pdf"></i>
+                <h3>High Quality PDF</h3>
+                <p>Preserve clean text and document formatting perfectly.</p>
+            </div>
+            <div class="tool-card">
+                <i class="bi bi-shield-check"></i>
+                <h3>100% Secure</h3>
+                <p>Your files are safely handled and removed automatically.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="{{ url_for('static', filename='js/word_to_pdf.js') }}"></script>
+
+{% endblock %}
