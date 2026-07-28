@@ -84,15 +84,39 @@ All PDF Tools | PDF Utens
                 <h3>Rotate PDF</h3>
                 <p>Rotate pages 90°, 180°, or 270° clockwise permanently.</p>
             </a>
+
+            <a href="{{ url_for('watermark_pdf.watermark_pdf') }}" class="tool-card">
+                <i class="bi bi-fonts"></i>
+                <h3>Watermark PDF</h3>
+                <p>Add custom text watermarks, opacity, and angles to PDF pages.</p>
+            </a>
+
+            <a href="{{ url_for('remove_watermark.remove_watermark') }}" class="tool-card">
+                <i class="bi bi-eraser"></i>
+                <h3>Remove Watermark</h3>
+                <p>Remove text watermarks and stamp annotations from PDF files.</p>
+            </a>
         </div>
 
         <!-- Category 5: PDF Security & Optimization -->
         <div class="section-title text-left mb-4">
             <h2><i class="bi bi-shield-check"></i> PDF Security & Optimization</h2>
-            <p>Compress and optimize your PDF files for secure sharing and storage.</p>
+            <p>Protect, unlock, and compress your PDF files for secure sharing.</p>
         </div>
 
         <div class="tools-grid">
+            <a href="{{ url_for('protect_pdf.protect_pdf') }}" class="tool-card">
+                <i class="bi bi-shield-lock"></i>
+                <h3>Protect PDF</h3>
+                <p>Encrypt your PDF document with a password to restrict access.</p>
+            </a>
+
+            <a href="{{ url_for('unlock_pdf.unlock_pdf') }}" class="tool-card">
+                <i class="bi bi-unlock"></i>
+                <h3>Unlock PDF</h3>
+                <p>Remove password encryption and decryption locks from PDF files.</p>
+            </a>
+
             <a href="{{ url_for('compress_pdf.compress_pdf') }}" class="tool-card">
                 <i class="bi bi-file-earmark-zip"></i>
                 <h3>Compress PDF</h3>

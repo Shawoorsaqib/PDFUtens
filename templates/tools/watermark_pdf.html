@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}
+Watermark PDF | PDF Utens
+{% endblock %}
+
+{% block content %}
+
+<section class="tool-hero">
+    <div class="container">
+        <div class="tool-hero-content">
+            <h1>Watermark PDF</h1>
+            <p>Add custom text watermarks with custom opacity and angles to your PDF pages.</p>
+        </div>
+    </div>
+</section>
+
+<section class="upload-section" id="upload">
+    <div class="container">
+        <form class="upload-box" id="watermarkPdfForm" action="/watermark-pdf/upload" method="POST" enctype="multipart/form-data">
+
+            <!-- Main Dropzone Content -->
+            <div class="upload-content" id="uploadContent">
+                <i class="bi bi-fonts upload-icon"></i>
+                <h2>Select PDF File</h2>
+                <p>Choose a PDF file or drag & drop it here</p>
+                <small>Supports .pdf files</small>
+
+                <input type="file" name="file" id="watermarkPdfFileInput" accept=".pdf" hidden>
+
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-primary" id="chooseWatermarkBtn">
+                        <i class="bi bi-folder2-open"></i> Choose PDF File
+                    </button>
+                </div>
+            </div>
+
+            <!-- Selected File Preview Container -->
+            <div class="selected-files-container" id="selectedFilesContainer" style="display: none;"></div>
+
+            <!-- Status Message -->
+            <div id="uploadStatus" class="upload-status" style="display: none;"></div>
+
+            <!-- Watermark Customization Controls -->
+            <div class="upload-actions" id="uploadActions" style="display: none; max-width: 420px; margin-left: auto; margin-right: auto; text-align: left;">
+                <div style="margin-bottom: 15px;">
+                    <label for="watermarkTextInput" style="font-weight: 600; margin-bottom: 6px; display: block; color: var(--text-color, #333);">Watermark Text:</label>
+                    <input type="text" id="watermarkTextInput" name="text" value="CONFIDENTIAL" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem;" required>
+                </div>
+
+                <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                    <div style="flex: 1;">
+                        <label for="watermarkOpacitySelect" style="font-weight: 600; margin-bottom: 6px; display: block; color: var(--text-color, #333);">Opacity:</label>
+                        <select id="watermarkOpacitySelect" name="opacity" style="width: 100%; padding: 9px 12px; border-radius: 8px; border: 1px solid #ccc; background: white;">
+                            <option value="0.15">Light (15%)</option>
+                            <option value="0.3" selected>Medium (30%)</option>
+                            <option value="0.5">Dark (50%)</option>
+                            <option value="0.8">Solid (80%)</option>
+                        </select>
+                    </div>
+
+                    <div style="flex: 1;">
+                        <label for="watermarkRotationSelect" style="font-weight: 600; margin-bottom: 6px; display: block; color: var(--text-color, #333);">Rotation:</label>
+                        <select id="watermarkRotationSelect" name="rotation" style="width: 100%; padding: 9px 12px; border-radius: 8px; border: 1px solid #ccc; background: white;">
+                            <option value="45" selected>Diagonal (45°)</option>
+                            <option value="0">Horizontal (0°)</option>
+                            <option value="90">Vertical (90°)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="text-align: center;">
+                    <button type="submit" class="btn btn-success" id="watermarkPdfSubmitBtn" style="padding: 12px 32px; font-size: 1.1rem; border-radius: 30px;">
+                        <i class="bi bi-fonts"></i> Apply Watermark & Download
+                    </button>
+                </div>
+            </div>
+
+            <!-- Success Card -->
+            <div id="successCard" class="success-card" style="display: none;">
+                <div class="success-icon">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <h3>Watermark Applied!</h3>
+                <p>Your watermarked PDF document is ready for download.</p>
+
+                <div class="success-actions">
+                    <a id="downloadWatermarkedBtn" href="#" class="btn btn-primary" download>
+                        <i class="bi bi-download"></i> Download Watermarked PDF
+                    </a>
+                    <button id="convertAnotherBtn" type="button" class="btn btn-outline">
+                        <i class="bi bi-arrow-counterclockwise"></i> Watermark Another
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</section>
+
+<section class="tool-features">
+    <div class="container">
+        <div class="tool-grid">
+            <div class="tool-card">
+                <i class="bi bi-fonts"></i>
+                <h3>Custom Text</h3>
+                <p>Add text stamps like "CONFIDENTIAL", "DRAFT", or custom branding.</p>
+            </div>
+            <div class="tool-card">
+                <i class="bi bi-sliders"></i>
+                <h3>Full Styling</h3>
+                <p>Customize watermark opacity, angles, and page coverage.</p>
+            </div>
+            <div class="tool-card">
+                <i class="bi bi-shield-check"></i>
+                <h3>100% Secure</h3>
+                <p>Your files are safely processed and automatically deleted.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="{{ url_for('static', filename='js/watermark.js') }}"></script>
+
+{% endblock %}

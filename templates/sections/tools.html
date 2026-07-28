@@ -47,6 +47,30 @@
                 <h3>Rotate PDF</h3>
                 <p>Rotate pages 90°, 180°, or 270° easily.</p>
             </a>
+
+            <a href="{{ url_for('protect_pdf.protect_pdf') }}" class="tool-card">
+                <i class="bi bi-shield-lock"></i>
+                <h3>Protect PDF</h3>
+                <p>Encrypt PDF files with a password.</p>
+            </a>
+
+            <a href="{{ url_for('unlock_pdf.unlock_pdf') }}" class="tool-card">
+                <i class="bi bi-unlock"></i>
+                <h3>Unlock PDF</h3>
+                <p>Remove passwords from protected PDFs.</p>
+            </a>
+
+            <a href="{{ url_for('watermark_pdf.watermark_pdf') }}" class="tool-card">
+                <i class="bi bi-fonts"></i>
+                <h3>Watermark PDF</h3>
+                <p>Add custom text watermarks to PDF pages.</p>
+            </a>
+
+            <a href="{{ url_for('remove_watermark.remove_watermark') }}" class="tool-card">
+                <i class="bi bi-eraser"></i>
+                <h3>Remove Watermark</h3>
+                <p>Remove watermarks and stamp annotations.</p>
+            </a>
         </div>
     </div>
 </section>

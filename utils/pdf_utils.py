@@ -1,5 +1,7 @@
 import os
+import io
 import uuid
+import shutil
 from pypdf import PdfWriter, PdfReader, errors
 import config
 
@@ -7,17 +9,6 @@ import config
 def merge_pdfs(pdf_paths, output_name=None):
     """
     Merge multiple PDF files into one PDF.
-
-    Args:
-        pdf_paths (list): List of PDF file paths to merge.
-        output_name (str, optional): Custom name for the output PDF.
-
-    Returns:
-        tuple: (output_filename, output_path)
-
-    Raises:
-        ValueError: If fewer than 2 files are provided.
-        FileNotFoundError: If any of the input files do not exist.
     """
     if not pdf_paths or len(pdf_paths) < 2:
         raise ValueError("At least two PDF files are required to merge.")
@@ -50,23 +41,9 @@ def merge_pdfs(pdf_paths, output_name=None):
 def split_pdf(pdf_path, split_mode="all", ranges=None, output_folder=None):
     """
     Split a PDF into individual single-page PDF files or extracted page ranges.
-
-    Args:
-        pdf_path (str): Path to the input PDF.
-        split_mode (str): 'all' (split every page) or 'range' (extract custom page ranges).
-        ranges (list, optional): List of dicts like [{'from': 1, 'to': 3}, ...] or tuples (start, end).
-        output_folder (str, optional): Custom folder where output will be written.
-
-    Returns:
-        tuple: (output_filename, output_path) - a ZIP file if multiple PDFs created, or a single PDF file.
-
-    Raises:
-        FileNotFoundError: If input PDF does not exist.
-        ValueError: If PDF cannot be read or range values are invalid.
     """
     import zipfile
     import tempfile
-    import shutil
 
     if not os.path.exists(pdf_path):
         raise FileNotFoundError(f"PDF file not found: {pdf_path}")
@@ -214,3 +191,142 @@ def rotate_pdf_file(pdf_path, rotation_angle=90, output_name=None):
 
     writer.close()
     return output_filename, output_path
+
+
+def protect_pdf_file(pdf_path, password, output_name=None):
+    """
+    Encrypt a PDF file with a user password.
+    """
+    if not os.path.exists(pdf_path):
+        raise FileNotFoundError(f"PDF file not found: {pdf_path}")
+
+    if not password:
+        raise ValueError("Password cannot be empty.")
+
+    reader = PdfReader(pdf_path)
+    writer = PdfWriter()
+
+    for page in reader.pages:
+        writer.add_page(page)
+
+    writer.encrypt(password)
+
+    stem = os.path.splitext(os.path.basename(pdf_path))[0]
+    output_filename = output_name or f"protected_{stem}.pdf"
+    output_path = os.path.join(config.OUTPUT_FOLDER, output_filename)
+
+    with open(output_path, "wb") as f:
+        writer.write(f)
+
+    writer.close()
+    return output_filename, output_path
+
+
+def unlock_pdf_file(pdf_path, password, output_name=None):
+    """
+    Decrypt a password-protected PDF file.
+    """
+    if not os.path.exists(pdf_path):
+        raise FileNotFoundError(f"PDF file not found: {pdf_path}")
+
+    reader = PdfReader(pdf_path)
+    if reader.is_encrypted:
+        if not password:
+            raise ValueError("Password is required to unlock this PDF.")
+        decrypt_success = reader.decrypt(password)
+        if decrypt_success == 0:
+            raise ValueError("Incorrect password provided for the encrypted PDF.")
+
+    writer = PdfWriter()
+    for page in reader.pages:
+        writer.add_page(page)
+
+    stem = os.path.splitext(os.path.basename(pdf_path))[0]
+    output_filename = output_name or f"unlocked_{stem}.pdf"
+    output_path = os.path.join(config.OUTPUT_FOLDER, output_filename)
+
+    with open(output_path, "wb") as f:
+        writer.write(f)
+
+    writer.close()
+    return output_filename, output_path
+
+
+def watermark_pdf_file(pdf_path, watermark_text="CONFIDENTIAL", opacity=0.3, rotation=45, output_name=None):
+    """
+    Overlay a custom text watermark onto all pages of a PDF document.
+    """
+    if not os.path.exists(pdf_path):
+        raise FileNotFoundError(f"PDF file not found: {pdf_path}")
+
+    from reportlab.pdfgen import canvas
+
+    text = watermark_text.strip() if watermark_text else "CONFIDENTIAL"
+    opacity_val = float(opacity)
+    rotation_val = int(rotation)
+
+    # Generate watermark overlay PDF in memory
+    wm_buf = io.BytesIO()
+    c = canvas.Canvas(wm_buf, pagesize=(612, 792))
+    c.saveState()
+    c.setFont("Helvetica-Bold", 36)
+    c.setFillColorRGB(0.5, 0.5, 0.5, opacity_val)
+    c.translate(306, 396)
+    c.rotate(rotation_val)
+    c.drawCentredString(0, 0, text)
+    c.restoreState()
+    c.save()
+    wm_buf.seek(0)
+
+    wm_reader = PdfReader(wm_buf)
+    watermark_page = wm_reader.pages[0]
+
+    reader = PdfReader(pdf_path)
+    writer = PdfWriter()
+
+    for page in reader.pages:
+        page.merge_page(watermark_page)
+        writer.add_page(page)
+
+    stem = os.path.splitext(os.path.basename(pdf_path))[0]
+    output_filename = output_name or f"watermarked_{stem}.pdf"
+    output_path = os.path.join(config.OUTPUT_FOLDER, output_filename)
+
+    with open(output_path, "wb") as f:
+        writer.write(f)
+
+    writer.close()
+    return output_filename, output_path
+
+
+def remove_watermark_file(pdf_path, watermark_text=None, output_name=None):
+    """
+    Redact and remove watermark text / annotations from a PDF file using PyMuPDF (fitz).
+    """
+    if not os.path.exists(pdf_path):
+        raise FileNotFoundError(f"PDF file not found: {pdf_path}")
+
+    stem = os.path.splitext(os.path.basename(pdf_path))[0]
+    output_filename = output_name or f"cleaned_{stem}.pdf"
+    output_path = os.path.join(config.OUTPUT_FOLDER, output_filename)
+
+    try:
+        import fitz
+        doc = fitz.open(pdf_path)
+        for page in doc:
+            if watermark_text and watermark_text.strip():
+                text_instances = page.search_for(watermark_text.strip())
+                for inst in text_instances:
+                    page.add_redact_annot(inst, fill=None)
+                page.apply_redactions()
+
+            annots = page.annots()
+            if annots:
+                for annot in annots:
+                    page.delete_annot(annot)
+
+        doc.save(output_path, garbage=4, deflate=True, clean=True)
+        doc.close()
+        return output_filename, output_path
+    except Exception as e:
+        raise ValueError(f"Failed to remove watermark: {str(e)}")
