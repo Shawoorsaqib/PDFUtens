@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Terms & Conditions | PDF Utens{% endblock %}
+
+{% block content %}
+
+<section class="policy-hero text-center py-5">
+    <div class="container">
+        <div class="badge-pill mb-3 fade-in">
+            <i class="bi bi-file-earmark-text"></i> Legal Terms
+        </div>
+        <h1 class="fade-up">Terms & Conditions</h1>
+        <p class="policy-hero-subtitle fade-up">
+            Last updated: July 2026. Please read these terms carefully before using PDFUtens.
+        </p>
+    </div>
+</section>
+
+<section class="policy-content-section py-5">
+    <div class="container">
+        <div class="policy-card glass-card fade-up">
+            <div class="policy-block">
+                <h2><i class="bi bi-check-square-fill"></i> 1. Acceptance of Terms</h2>
+                <p>
+                    By accessing or using PDFUtens, you agree to be bound by these Terms and Conditions and our Privacy Policy. If you do not agree to all of these terms, please do not use our website or services.
+                </p>
+            </div>
+
+            <div class="policy-block">
+                <h2><i class="bi bi-gear-wide-connected"></i> 2. Description of Service</h2>
+                <p>
+                    PDFUtens provides web-based tools for converting, editing, splitting, merging, protecting, unlocking, watermarking, and optimizing PDF files and office documents. We reserve the right to modify, suspend, or discontinue any feature or tool at any time without prior notice.
+                </p>
+            </div>
+
+            <div class="policy-block">
+                <h2><i class="bi bi-slash-circle-fill"></i> 3. Acceptable Use Policy</h2>
+                <p>
+                    You agree to use PDFUtens only for lawful purposes. You must not:
+                </p>
+                <ul>
+                    <li>Upload documents containing malicious code, viruses, or harmful components.</li>
+                    <li>Upload illegal, copyrighted, or prohibited material for which you do not possess authorization.</li>
+                    <li>Attempt to bypass security features, reverse-engineer, or disrupt application servers.</li>
+                </ul>
+            </div>
+
+            <div class="policy-block">
+                <h2><i class="bi bi-file-earmark-lock-fill"></i> 4. User Content & File Ownership</h2>
+                <p>
+                    You retain full ownership and intellectual property rights over all files you upload to PDFUtens. PDFUtens claims no ownership, copyright, or rights over your document content.
+                </p>
+            </div>
+
+            <div class="policy-block">
+                <h2><i class="bi bi-exclamation-triangle-fill"></i> 5. Disclaimer of Warranties</h2>
+                <p>
+                    PDFUtens is provided on an "AS IS" and "AS AVAILABLE" basis without warranties of any kind, whether express or implied. While we strive for 100% accuracy and uptime, we do not guarantee uninterrupted or error-free processing.
+                </p>
+            </div>
+
+            <div class="policy-block">
+                <h2><i class="bi bi-shield-x"></i> 6. Limitation of Liability</h2>
+                <p>
+                    In no event shall PDFUtens or its developers be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the service or inability to access files.
+                </p>
+            </div>
+
+            <div class="policy-actions pt-4 text-center">
+                <a href="{{ url_for('about.privacy') }}" class="btn btn-secondary">
+                    <i class="bi bi-shield-check"></i> Privacy Policy
+                </a>
+                <a href="{{ url_for('tools.tools_page') }}" class="btn btn-primary">
+                    <i class="bi bi-grid-fill"></i> Explore Tools
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include "sections/footer.html" %}
+
+{% endblock %}

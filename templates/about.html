@@ -1,0 +1,370 @@
+{% extends "base.html" %}
+
+{% block title %}About Us | PDF Utens{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="about-hero text-center">
+    <div class="container">
+        <div class="about-hero-content">
+            <div class="badge-pill mb-3 fade-in">
+                <i class="bi bi-stars"></i> All-in-One PDF Toolkit
+            </div>
+            <h1 class="fade-up">Powerful PDF Tools. <span class="gradient-text">Simple Experience.</span></h1>
+            <p class="about-hero-subtitle fade-up">
+                PDFUtens is an all-in-one PDF toolkit designed to make document management fast, secure, and effortless. Convert, edit, organize, protect, and optimize your PDF files directly from your browser.
+            </p>
+            
+            <div class="about-hero-cta hero-buttons fade-up">
+                <a href="{{ url_for('tools.tools_page') }}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-grid-fill"></i> Explore All Tools
+                </a>
+                <a href="{{ url_for('home') }}" class="btn btn-secondary btn-lg">
+                    <i class="bi bi-house-door-fill"></i> Back to Home
+                </a>
+            </div>
+
+            <!-- Animated Illustration with Floating Doc Icons -->
+            <div class="about-illustration-container fade-up">
+                <div class="floating-icon icon-1"><i class="bi bi-file-earmark-word-fill"></i></div>
+                <div class="floating-icon icon-2"><i class="bi bi-image-fill"></i></div>
+                <div class="floating-icon icon-3"><i class="bi bi-shield-lock-fill"></i></div>
+                <div class="floating-icon icon-4"><i class="bi bi-scissors"></i></div>
+
+                <div class="hero-svg-wrapper">
+                    <svg viewBox="0 0 400 300" width="100%" height="100%" class="animated-pdf-svg">
+                        <defs>
+                            <linearGradient id="cardGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#6366F1" />
+                                <stop offset="100%" stop-color="#4F46E5" />
+                            </linearGradient>
+                            <linearGradient id="cardGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#3B82F6" />
+                                <stop offset="100%" stop-color="#2563EB" />
+                            </linearGradient>
+                            <filter id="shadow">
+                                <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.2" />
+                            </filter>
+                        </defs>
+                        <!-- Main Stacked Cards -->
+                        <rect x="60" y="80" width="180" height="180" rx="16" fill="url(#cardGrad1)" opacity="0.3" transform="rotate(-10 150 170)" />
+                        <rect x="160" y="70" width="180" height="180" rx="16" fill="url(#cardGrad2)" opacity="0.5" transform="rotate(8 250 160)" />
+                        
+                        <!-- Primary Front Card -->
+                        <g filter="url(#shadow)">
+                            <rect x="110" y="50" width="180" height="210" rx="20" fill="var(--surface)" stroke="var(--border)" stroke-width="2" />
+                            <rect x="135" y="85" width="130" height="12" rx="6" fill="var(--primary)" opacity="0.8" />
+                            <rect x="135" y="110" width="90" height="10" rx="5" fill="var(--text-muted)" opacity="0.5" />
+                            <rect x="135" y="130" width="110" height="10" rx="5" fill="var(--text-muted)" opacity="0.5" />
+                            <rect x="135" y="150" width="70" height="10" rx="5" fill="var(--text-muted)" opacity="0.5" />
+                            <!-- Accent PDF Tag -->
+                            <rect x="135" y="180" width="64" height="28" rx="8" fill="#EF4444" />
+                            <text x="167" y="199" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="14" fill="#FFFFFF" text-anchor="middle">PDF</text>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Story Section -->
+<section class="story-section py-5">
+    <div class="container">
+        <div class="story-box glass-card fade-up">
+            <div class="section-title text-center mb-4">
+                <h2><i class="bi bi-journal-bookmark-fill"></i> Our Story</h2>
+            </div>
+            <div class="story-content text-center">
+                <p class="lead-text mb-3">
+                    PDFUtens was created to provide a modern, lightweight, and privacy-focused alternative to bulky online PDF editors. The goal is to offer professional-quality PDF tools with a clean user experience, fast processing, and a beautiful interface.
+                </p>
+                <p class="sub-text">
+                    Every feature has been designed with simplicity, performance, and usability in mind, allowing users to complete document tasks in just a few clicks.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mission Section -->
+<section class="mission-section py-5">
+    <div class="container">
+        <div class="section-title text-center mb-5">
+            <h2>Our Mission</h2>
+            <p>Empowering document workflows through core engineering principles.</p>
+        </div>
+
+        <div class="mission-grid">
+            <div class="mission-card glass-card fade-up">
+                <div class="mission-icon">🚀</div>
+                <h3>Simplicity</h3>
+                <p>"Make professional PDF tools easy enough for everyone."</p>
+            </div>
+
+            <div class="mission-card glass-card fade-up">
+                <div class="mission-icon">🔒</div>
+                <h3>Privacy</h3>
+                <p>"Files are processed securely and automatically removed after processing."</p>
+            </div>
+
+            <div class="mission-card glass-card fade-up">
+                <div class="mission-icon">⚡</div>
+                <h3>Performance</h3>
+                <p>"Fast document processing powered by efficient Python libraries."</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- What PDFUtens Can Do Section -->
+<section class="capabilities-section py-5">
+    <div class="container">
+        <div class="section-title text-center mb-5">
+            <h2>What PDFUtens Can Do</h2>
+            <p>A complete suite of PDF capabilities organized for maximum efficiency.</p>
+        </div>
+
+        <div class="capabilities-grid">
+            <!-- Convert Category -->
+            <div class="category-card glass-card fade-up">
+                <div class="category-header">
+                    <i class="bi bi-arrow-repeat"></i>
+                    <h3>Convert</h3>
+                </div>
+                <ul class="capability-list">
+                    <li><a href="{{ url_for('image_to_pdf.image_to_pdf') }}"><i class="bi bi-image"></i> Image → PDF</a></li>
+                    <li><a href="{{ url_for('word_to_pdf.word_to_pdf') }}"><i class="bi bi-file-earmark-pdf"></i> Word → PDF</a></li>
+                    <li><a href="{{ url_for('pdf_to_word.pdf_to_word') }}"><i class="bi bi-file-earmark-word"></i> PDF → Word</a></li>
+                </ul>
+            </div>
+
+            <!-- Organize Category -->
+            <div class="category-card glass-card fade-up">
+                <div class="category-header">
+                    <i class="bi bi-folder-symlink"></i>
+                    <h3>Organize</h3>
+                </div>
+                <ul class="capability-list">
+                    <li><a href="{{ url_for('merge_pdf.merge_pdf') }}"><i class="bi bi-files"></i> Merge PDF</a></li>
+                    <li><a href="{{ url_for('split_pdf.split_pdf') }}"><i class="bi bi-scissors"></i> Split PDF</a></li>
+                </ul>
+            </div>
+
+            <!-- Edit Category -->
+            <div class="category-card glass-card fade-up">
+                <div class="category-header">
+                    <i class="bi bi-pencil-square"></i>
+                    <h3>Edit</h3>
+                </div>
+                <ul class="capability-list">
+                    <li><a href="{{ url_for('rotate_pdf.rotate_pdf') }}"><i class="bi bi-arrow-clockwise"></i> Rotate PDF</a></li>
+                    <li><a href="{{ url_for('watermark_pdf.watermark_pdf') }}"><i class="bi bi-fonts"></i> Watermark PDF</a></li>
+                    <li><a href="{{ url_for('remove_watermark.remove_watermark') }}"><i class="bi bi-eraser"></i> Remove Watermark</a></li>
+                </ul>
+            </div>
+
+            <!-- Security Category -->
+            <div class="category-card glass-card fade-up">
+                <div class="category-header">
+                    <i class="bi bi-shield-check"></i>
+                    <h3>Security</h3>
+                </div>
+                <ul class="capability-list">
+                    <li><a href="{{ url_for('protect_pdf.protect_pdf') }}"><i class="bi bi-shield-lock"></i> Protect PDF</a></li>
+                    <li><a href="{{ url_for('unlock_pdf.unlock_pdf') }}"><i class="bi bi-unlock"></i> Unlock PDF</a></li>
+                </ul>
+            </div>
+
+            <!-- Optimization Category -->
+            <div class="category-card glass-card fade-up">
+                <div class="category-header">
+                    <i class="bi bi-speedometer2"></i>
+                    <h3>Optimization</h3>
+                </div>
+                <ul class="capability-list">
+                    <li><a href="{{ url_for('compress_pdf.compress_pdf') }}"><i class="bi bi-file-earmark-zip"></i> Compress PDF</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Technology Stack Section -->
+<section class="tech-stack-section py-5">
+    <div class="container">
+        <div class="section-title text-center mb-5">
+            <h2>Built with Modern Technologies</h2>
+            <p>Leveraging powerful open-source libraries and frameworks.</p>
+        </div>
+
+        <div class="tech-grid fade-up">
+            <div class="tech-badge"><i class="bi bi-code-slash"></i> Python</div>
+            <div class="tech-badge"><i class="bi bi-cpu-fill"></i> Flask</div>
+            <div class="tech-badge"><i class="bi bi-filetype-js"></i> JavaScript</div>
+            <div class="tech-badge"><i class="bi bi-filetype-html"></i> HTML5</div>
+            <div class="tech-badge"><i class="bi bi-filetype-css"></i> CSS3</div>
+            <div class="tech-badge"><i class="bi bi-bootstrap-fill"></i> Bootstrap Icons</div>
+            <div class="tech-badge"><i class="bi bi-file-earmark-pdf"></i> PDF.js</div>
+            <div class="tech-badge"><i class="bi bi-layers-fill"></i> PyPDF</div>
+            <div class="tech-badge"><i class="bi bi-lightning-fill"></i> PyMuPDF</div>
+            <div class="tech-badge"><i class="bi bi-image-fill"></i> Pillow</div>
+            <div class="tech-badge"><i class="bi bi-arrow-right-left"></i> pdf2docx</div>
+            <div class="tech-badge"><i class="bi bi-file-earmark-word-fill"></i> docx2pdf</div>
+            <div class="tech-badge"><i class="bi bi-file-earmark-text"></i> python-docx</div>
+            <div class="tech-badge"><i class="bi bi-journal-code"></i> ReportLab</div>
+        </div>
+    </div>
+</section>
+
+<!-- Core Features Section -->
+<section class="core-features-section py-5">
+    <div class="container">
+        <div class="section-title text-center mb-5">
+            <h2>Key Advantages</h2>
+            <p>Designed to deliver performance, security, and aesthetics.</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card glass-card fade-up">
+                <div class="feature-icon-wrapper">⚡</div>
+                <h3>Fast Processing</h3>
+                <p>"Optimized document processing with minimal waiting time."</p>
+            </div>
+
+            <div class="feature-card glass-card fade-up">
+                <div class="feature-icon-wrapper">🔒</div>
+                <h3>Secure Processing</h3>
+                <p>"Uploaded files are automatically cleaned after conversion."</p>
+            </div>
+
+            <div class="feature-card glass-card fade-up">
+                <div class="feature-icon-wrapper">🎨</div>
+                <h3>Modern Interface</h3>
+                <p>"Beautiful light and dark themes with responsive layouts."</p>
+            </div>
+
+            <div class="feature-card glass-card fade-up">
+                <div class="feature-icon-wrapper">📱</div>
+                <h3>Responsive</h3>
+                <p>"Works seamlessly across desktop, tablet, and mobile devices."</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose PDFUtens Section (2-Column) -->
+<section class="why-choose-section py-5">
+    <div class="container">
+        <div class="why-choose-wrapper glass-card fade-up">
+            <div class="why-choose-grid">
+                <!-- Left Column: SVG Illustration -->
+                <div class="why-choose-image">
+                    <svg viewBox="0 0 360 300" width="100%" height="100%">
+                        <rect x="40" y="60" width="200" height="220" rx="16" fill="var(--primary-light)" opacity="0.4" transform="rotate(-6 140 170)" />
+                        <rect x="100" y="40" width="200" height="220" rx="16" fill="var(--surface)" stroke="var(--primary)" stroke-width="2" />
+                        <circle cx="200" cy="120" r="40" fill="var(--primary-light)" />
+                        <path d="M185 120 L195 130 L220 105" stroke="var(--primary)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                        <rect x="130" y="180" width="140" height="12" rx="6" fill="var(--text-primary)" opacity="0.8" />
+                        <rect x="130" y="204" width="100" height="10" rx="5" fill="var(--text-muted)" opacity="0.6" />
+                    </svg>
+                </div>
+
+                <!-- Right Column: Checkmark Bullet Points -->
+                <div class="why-choose-content">
+                    <h2>Why Choose PDFUtens?</h2>
+                    <p class="mb-4">Everything you need for effortless PDF management in one intuitive dashboard.</p>
+                    
+                    <div class="checklist-grid">
+                        <div class="check-item"><i class="bi bi-check-circle-fill"></i> Modern User Experience</div>
+                        <div class="check-item"><i class="bi bi-check-circle-fill"></i> Easy-to-use Interface</div>
+                        <div class="check-item"><i class="bi bi-check-circle-fill"></i> Multiple PDF Utilities</div>
+                        <div class="check-item"><i class="bi bi-check-circle-fill"></i> Privacy Focused</div>
+                        <div class="check-item"><i class="bi bi-check-circle-fill"></i> Fast Processing</div>
+                        <div class="check-item"><i class="bi bi-check-circle-fill"></i> Beautiful Design</div>
+                        <div class="check-item"><i class="bi bi-check-circle-fill"></i> Cross Platform</div>
+                        <div class="check-item"><i class="bi bi-check-circle-fill"></i> Mobile Friendly</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="stats-section py-5">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card glass-card fade-up">
+                <div class="stat-number" data-target="15">0</div>
+                <div class="stat-label">Tools Available</div>
+            </div>
+
+            <div class="stat-card glass-card fade-up">
+                <div class="stat-badge-list">
+                    <span>PDF</span> <span>DOCX</span> <span>PNG</span> <span>JPG</span> <span>WEBP</span>
+                </div>
+                <div class="stat-label">Supported Formats</div>
+            </div>
+
+            <div class="stat-card glass-card fade-up">
+                <div class="stat-number" data-target="100" data-suffix="%">0</div>
+                <div class="stat-label">Responsive</div>
+            </div>
+
+            <div class="stat-card glass-card fade-up">
+                <div class="stat-icon-label"><i class="bi bi-moon-stars-fill"></i> Supported</div>
+                <div class="stat-label">Dark Mode</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Developer Section -->
+<section class="developer-section py-5">
+    <div class="container">
+        <div class="developer-card glass-card fade-up">
+            <div class="developer-grid">
+                <div class="developer-content">
+                    <h2><i class="bi bi-code-square"></i> Built with Passion</h2>
+                    <p>
+                        PDFUtens is continuously evolving with new tools, better performance, improved security, and an enhanced user experience. Every release focuses on creating a reliable, modern PDF toolkit that is simple to use while remaining powerful enough for everyday document workflows.
+                    </p>
+                </div>
+                <div class="developer-illustration">
+                    <div class="dev-avatar">
+                        <i class="bi bi-laptop-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="cta py-5">
+    <div class="container">
+        <div class="cta-box fade-up">
+            <h2>Ready to Simplify Your PDF Workflow?</h2>
+            <p>Start using PDFUtens today and manage your documents faster than ever.</p>
+
+            <div class="cta-buttons">
+                <a href="{{ url_for('tools.tools_page') }}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-grid-fill"></i> Explore Tools
+                </a>
+                <a href="{{ url_for('home') }}" class="btn btn-secondary btn-lg">
+                    <i class="bi bi-house-door-fill"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include "sections/footer.html" %}
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/about.js') }}"></script>
+{% endblock %}

@@ -55,7 +55,7 @@ All PDF Tools | PDF Utens
         <!-- Category 3: Organize PDF -->
         <div class="section-title text-left mb-4">
             <h2><i class="bi bi-folder-symlink"></i> Organize PDF</h2>
-            <p>Combine multiple PDFs or extract specific pages.</p>
+            <p>Combine multiple PDFs, delete pages, extract pages, or reorder page sequences.</p>
         </div>
 
         <div class="tools-grid mb-5">
@@ -70,12 +70,30 @@ All PDF Tools | PDF Utens
                 <h3>Split PDF</h3>
                 <p>Extract specific pages or split pages into individual PDFs.</p>
             </a>
+
+            <a href="{{ url_for('delete_pages.delete_pages') }}" class="tool-card">
+                <i class="bi bi-trash"></i>
+                <h3>Delete Pages</h3>
+                <p>Remove unwanted pages or page ranges from your PDF document.</p>
+            </a>
+
+            <a href="{{ url_for('extract_pages.extract_pages') }}" class="tool-card">
+                <i class="bi bi-box-arrow-up-right"></i>
+                <h3>Extract Pages</h3>
+                <p>Extract specified page numbers or page ranges into a new PDF.</p>
+            </a>
+
+            <a href="{{ url_for('reorder_pages.reorder_pages') }}" class="tool-card">
+                <i class="bi bi-arrow-down-up"></i>
+                <h3>Reorder Pages</h3>
+                <p>Rearrange the sequence of pages in your PDF file.</p>
+            </a>
         </div>
 
         <!-- Category 4: Edit PDF -->
         <div class="section-title text-left mb-4">
             <h2><i class="bi bi-pencil-square"></i> Edit PDF</h2>
-            <p>Modify and reorient pages in your PDF files.</p>
+            <p>Modify, watermark, and format page numbers in your PDF files.</p>
         </div>
 
         <div class="tools-grid mb-5">
@@ -95,6 +113,12 @@ All PDF Tools | PDF Utens
                 <i class="bi bi-eraser"></i>
                 <h3>Remove Watermark</h3>
                 <p>Remove text watermarks and stamp annotations from PDF files.</p>
+            </a>
+
+            <a href="{{ url_for('page_numbers.page_numbers') }}" class="tool-card">
+                <i class="bi bi-123"></i>
+                <h3>Page Numbers</h3>
+                <p>Add customizable page numbers, position, and formatting strings.</p>
             </a>
         </div>
 

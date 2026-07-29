@@ -29,6 +29,7 @@ function createToolUploader(options) {
         const successCard = document.getElementById("successCard");
         const downloadBtn = document.getElementById("downloadBtn") || (uploadForm ? uploadForm.querySelector("a[download]") : null);
         const convertAnotherBtn = document.getElementById("convertAnotherBtn");
+        const clearSelectionBtn = document.getElementById("clearSelectionBtn");
 
         if (!uploadForm || !fileInput) return;
 
@@ -51,6 +52,11 @@ function createToolUploader(options) {
             if (
                 e.target.closest("button") ||
                 e.target.closest("a") ||
+                e.target.closest("input") ||
+                e.target.closest("select") ||
+                e.target.closest("textarea") ||
+                e.target.closest("label") ||
+                e.target.closest(".upload-actions") ||
                 e.target.closest(".remove-file-btn") ||
                 e.target.closest(".selected-file-card") ||
                 (successCard && successCard.style.display !== "none")
@@ -60,6 +66,7 @@ function createToolUploader(options) {
             fileInput.value = "";
             fileInput.click();
         });
+
 
         fileInput.addEventListener("change", () => {
             if (fileInput.files && fileInput.files.length > 0) {
@@ -213,8 +220,10 @@ function createToolUploader(options) {
                 uploadStatus.textContent = loadingMsg;
             }
 
-            const formData = new FormData();
-            formData.append("file", selectedFile);
+            const formData = new FormData(uploadForm);
+            if (selectedFile) {
+                formData.set("file", selectedFile);
+            }
 
             try {
                 const response = await fetch(uploadEndpoint, {
@@ -272,6 +281,13 @@ function createToolUploader(options) {
                     uploadBtn.disabled = false;
                     uploadBtn.innerHTML = `<i class="bi ${buttonIconClass}"></i> ${buttonText}`;
                 }
+            });
+        }
+
+        if (clearSelectionBtn) {
+            clearSelectionBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                removeFile();
             });
         }
     }

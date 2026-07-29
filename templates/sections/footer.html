@@ -31,8 +31,8 @@
                 <ul>
 
                     <li><a href="/">Home</a></li>
-                    <li><a href="#">Tools</a></li>
-                    <li><a href="#">About</a></li>
+                    <li><a href="{{ url_for('tools.tools_page') }}">Tools</a></li>
+                    <li><a href="{{ url_for('about.about') }}">About</a></li>
                     <li><a href="https://github.com/Shawoorsaqib/PDFUtens" target="_blank">GitHub</a></li>
 
                 </ul>
@@ -46,10 +46,10 @@
 
                 <ul>
 
-                    <li><a href="#">Image to PDF</a></li>
-                    <li><a href="#">PDF to Word</a></li>
-                    <li><a href="#">Merge PDF</a></li>
-                    <li><a href="#">Split PDF</a></li>
+                    <li><a href="{{ url_for('image_to_pdf.image_to_pdf') }}">Image to PDF</a></li>
+                    <li><a href="{{ url_for('pdf_to_word.pdf_to_word') }}">PDF to Word</a></li>
+                    <li><a href="{{ url_for('merge_pdf.merge_pdf') }}">Merge PDF</a></li>
+                    <li><a href="{{ url_for('split_pdf.split_pdf') }}">Split PDF</a></li>
 
                 </ul>
 
@@ -62,8 +62,8 @@
 
                 <ul>
 
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="{{ url_for('about.privacy') }}">Privacy Policy</a></li>
+                    <li><a href="{{ url_for('about.terms') }}">Terms of Service</a></li>
 
                 </ul>
 
@@ -74,7 +74,9 @@
         <div class="footer-bottom">
 
             <p>
-                © 2026 PDF Utens. All rights reserved.
+                © 2026 PDF Utens. All rights reserved. &bull;
+                <a href="{{ url_for('about.privacy') }}">Privacy Policy</a> &bull;
+                <a href="{{ url_for('about.terms') }}">Terms of Service</a>
             </p>
 
         </div>

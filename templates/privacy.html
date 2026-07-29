@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Privacy Policy | PDF Utens{% endblock %}
+
+{% block content %}
+
+<section class="policy-hero text-center py-5">
+    <div class="container">
+        <div class="badge-pill mb-3 fade-in">
+            <i class="bi bi-shield-check"></i> Privacy First
+        </div>
+        <h1 class="fade-up">Privacy Policy</h1>
+        <p class="policy-hero-subtitle fade-up">
+            Last updated: July 2026. Learn how PDFUtens protects your privacy, files, and personal data.
+        </p>
+    </div>
+</section>
+
+<section class="policy-content-section py-5">
+    <div class="container">
+        <div class="policy-card glass-card fade-up">
+            <div class="policy-block">
+                <h2><i class="bi bi-lock-fill"></i> 1. Privacy Overview</h2>
+                <p>
+                    At PDFUtens, we prioritize your privacy and data security above all else. We believe document processing should be fast, convenient, and strictly confidential. We do not sell, rent, share, or monetize your uploaded documents or personal information under any circumstances.
+                </p>
+            </div>
+
+            <div class="policy-block">
+                <h2><i class="bi bi-trash-fill"></i> 2. Automated File Purging</h2>
+                <p>
+                    All files uploaded to PDFUtens (including PDFs, Word documents, images, and converted outputs) are processed temporarily in isolated server storage. 
+                </p>
+                <ul>
+                    <li>Uploaded files are strictly used for the requested conversion or editing task.</li>
+                    <li>All temporary files are automatically deleted permanently after processing or within 5 minutes.</li>
+                    <li>We do not create backups or retain archival copies of your document files.</li>
+                </ul>
+            </div>
+
+            <div class="policy-block">
+                <h2><i class="bi bi-eye-slash-fill"></i> 3. No Content Reading or Mining</h2>
+                <p>
+                    PDFUtens processes your files programmatically using automated server-side libraries. Human personnel cannot view, open, or inspect the contents of your documents. No artificial intelligence models are trained on your uploaded files or document text.
+                </p>
+            </div>
+
+            <div class="policy-block">
+                <h2><i class="bi bi-cookie"></i> 4. Cookies & Local Storage</h2>
+                <p>
+                    We use browser LocalStorage strictly to store your interface theme preference (Light Mode vs. Dark Mode). PDFUtens does not use tracking cookies or persistent third-party advertising cookies.
+                </p>
+            </div>
+
+            <div class="policy-block">
+                <h2><i class="bi bi-shield-lock-fill"></i> 5. Data Security Measures</h2>
+                <p>
+                    All communications between your browser and PDFUtens servers are protected using SSL/TLS encryption in transit. Server storage directories are sanitized periodically to prevent unauthorized access.
+                </p>
+            </div>
+
+            <div class="policy-block">
+                <h2><i class="bi bi-envelope-check-fill"></i> 6. Contact Us</h2>
+                <p>
+                    If you have any questions or concerns regarding this Privacy Policy or file data security, please feel free to reach out via our GitHub repository or contact our support team.
+                </p>
+            </div>
+
+            <div class="policy-actions pt-4 text-center">
+                <a href="{{ url_for('about.about') }}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> About PDFUtens
+                </a>
+                <a href="{{ url_for('tools.tools_page') }}" class="btn btn-primary">
+                    <i class="bi bi-grid-fill"></i> Explore Tools
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include "sections/footer.html" %}
+
+{% endblock %}

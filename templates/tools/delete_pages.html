@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}
+Delete Pages from PDF | PDF Utens
+{% endblock %}
+
+{% block content %}
+
+<section class="tool-hero">
+    <div class="container">
+        <div class="tool-hero-content">
+            <h1>Delete PDF Pages</h1>
+            <p>Remove unwanted pages or page ranges from your PDF document easily.</p>
+        </div>
+    </div>
+</section>
+
+<section class="upload-section" id="upload">
+    <div class="container">
+        <form class="upload-box" id="deletePagesForm" action="/delete-pages/upload" method="POST" enctype="multipart/form-data">
+
+            <div class="upload-content" id="uploadContent">
+                <i class="bi bi-trash upload-icon"></i>
+                <h2>Select PDF File</h2>
+                <p>Choose a PDF file or drag & drop it here</p>
+                <small>Supports .pdf files</small>
+
+                <input type="file" name="file" id="deletePagesFileInput" accept=".pdf" hidden>
+
+                <div class="action-buttons">
+                    <button type="button" class="btn btn-primary" id="chooseDeletePagesBtn">
+                        <i class="bi bi-folder2-open"></i> Choose PDF File
+                    </button>
+                </div>
+            </div>
+
+            <div class="selected-files-container" id="selectedFilesContainer" style="display: none;"></div>
+
+            <div id="uploadStatus" class="upload-status" style="display: none;"></div>
+
+            <div class="upload-actions" id="uploadActions" style="display: none; max-width: 450px; margin-left: auto; margin-right: auto; text-align: left;">
+                <div style="margin-bottom: 15px;">
+                    <label for="pagesToDeleteInput" style="font-weight: 600; margin-bottom: 6px; display: block; color: var(--text-color, #333);">Pages to Delete:</label>
+                    <input type="text" id="pagesToDeleteInput" name="pages" placeholder="e.g. 1, 3, 5-7" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem;" required>
+                    <small style="display: block; margin-top: 5px; color: #666;">Enter page numbers or ranges separated by commas (e.g. 1, 4, 6-10).</small>
+                </div>
+
+                <div style="display: flex; gap: 15px; margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary" id="processBtn" style="flex: 1; padding: 12px;">
+                        <i class="bi bi-trash"></i> Delete Selected Pages
+                    </button>
+                    <button type="button" class="btn btn-outline" id="clearSelectionBtn" style="padding: 12px;">
+                        <i class="bi bi-x-circle"></i> Clear
+                    </button>
+                </div>
+            </div>
+
+            <!-- Success Card -->
+            <div id="successCard" class="success-card" style="display: none;">
+                <div class="success-icon">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <h3>Pages Deleted Successfully!</h3>
+                <p>Your modified PDF file is ready for download.</p>
+
+                <div class="success-actions">
+                    <a id="downloadBtn" href="#" class="btn btn-primary" download>
+                        <i class="bi bi-download"></i> Download PDF
+                    </a>
+                    <button id="convertAnotherBtn" type="button" class="btn btn-outline">
+                        <i class="bi bi-arrow-counterclockwise"></i> Delete More Pages
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/delete_pages.js') }}"></script>
+{% endblock %}

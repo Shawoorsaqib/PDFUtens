@@ -49,6 +49,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (
             e.target.closest("button") ||
             e.target.closest("a") ||
+            e.target.closest("input") ||
+            e.target.closest("select") ||
+            e.target.closest("textarea") ||
+            e.target.closest("label") ||
+            e.target.closest(".upload-actions") ||
             e.target.closest(".remove-file-btn") ||
             e.target.closest(".selected-file-card") ||
             (successCard && successCard.style.display !== "none")

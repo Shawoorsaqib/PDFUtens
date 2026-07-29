@@ -9,8 +9,13 @@ from .protect_pdf import protect_pdf_bp
 from .unlock_pdf import unlock_pdf_bp
 from .watermark_pdf import watermark_pdf_bp
 from .remove_watermark import remove_watermark_bp
+from .delete_pages import delete_pages_bp
+from .extract_pages import extract_pages_bp
+from .reorder_pages import reorder_pages_bp
+from .page_numbers import page_numbers_bp
 from .tools import tools_bp
 from .api import api_bp
+from .about import about_bp
 
 
 def register_routes(app):
@@ -28,5 +33,10 @@ def register_routes(app):
     app.register_blueprint(unlock_pdf_bp)
     app.register_blueprint(watermark_pdf_bp)
     app.register_blueprint(remove_watermark_bp)
+    app.register_blueprint(delete_pages_bp)
+    app.register_blueprint(extract_pages_bp)
+    app.register_blueprint(reorder_pages_bp)
+    app.register_blueprint(page_numbers_bp)
     app.register_blueprint(tools_bp)
     app.register_blueprint(api_bp)
+    app.register_blueprint(about_bp)
