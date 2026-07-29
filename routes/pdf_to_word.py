@@ -12,6 +12,7 @@ from flask import (
 from utils.file_handler import save_uploaded_file
 from utils.converters import pdf_to_word as convert_pdf_to_word
 from utils.cleanup import cleanup_old_files, delete_file_pair, delete_files
+from utils.validators import safe_join_path
 
 pdf_to_word_bp = Blueprint("pdf_to_word", __name__)
 
@@ -70,13 +71,20 @@ def upload_pdf_to_word():
         }), 500
 
 
+@pdf_to_word_bp.route("/pdf-to-word/download/<path:filename>")
 @pdf_to_word_bp.route("/pdf-to-word/download/<filename>")
 def download_word_file(filename):
     """
     Serves the converted Word (.docx) document for download and cleans up the generated file.
     """
     output_folder = current_app.config.get("OUTPUT_FOLDER", "outputs")
-    output_path = os.path.join(output_folder, filename)
+    try:
+        output_path = safe_join_path(output_folder, filename)
+    except ValueError:
+        return jsonify({
+            "success": False,
+            "message": "Invalid download request or file path."
+        }), 400
 
     if not os.path.exists(output_path):
         return jsonify({
@@ -95,5 +103,5 @@ def download_word_file(filename):
         file_bytes,
         mimetype="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         as_attachment=True,
-        download_name=filename
+        download_name=os.path.basename(output_path)
     )

@@ -12,6 +12,7 @@ from flask import (
 from utils.file_handler import save_uploaded_file
 from utils.pdf_utils import protect_pdf_file
 from utils.cleanup import cleanup_old_files, delete_file_pair, delete_files
+from utils.validators import safe_join_path
 
 protect_pdf_bp = Blueprint("protect_pdf", __name__)
 
@@ -74,13 +75,20 @@ def upload_protect_pdf():
         }), 500
 
 
+@protect_pdf_bp.route("/protect-pdf/download/<path:filename>")
 @protect_pdf_bp.route("/protect-pdf/download/<filename>")
 def download_protected_pdf(filename):
     """
     Serves encrypted PDF and cleans up file from disk.
     """
     output_folder = current_app.config.get("OUTPUT_FOLDER", "outputs")
-    output_path = os.path.join(output_folder, filename)
+    try:
+        output_path = safe_join_path(output_folder, filename)
+    except ValueError:
+        return jsonify({
+            "success": False,
+            "message": "Invalid download request or file path."
+        }), 400
 
     if not os.path.exists(output_path):
         return jsonify({
@@ -97,5 +105,5 @@ def download_protected_pdf(filename):
         file_bytes,
         mimetype="application/pdf",
         as_attachment=True,
-        download_name=filename
+        download_name=os.path.basename(output_path)
     )

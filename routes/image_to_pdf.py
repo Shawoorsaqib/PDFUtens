@@ -13,7 +13,8 @@ import shutil
 
 from utils.validators import (
     is_allowed_image,
-    is_allowed_document
+    is_allowed_document,
+    safe_join_path
 )
 from utils.file_handler import save_uploaded_file
 from utils.converters import image_to_pdf as convert_image_to_pdf, images_to_pdf
@@ -91,6 +92,7 @@ def upload_file():
     })
 
 
+@image_to_pdf_bp.route("/download/<path:filename>")
 @image_to_pdf_bp.route("/download/<filename>")
 def download_file(filename):
     """
@@ -98,7 +100,13 @@ def download_file(filename):
     generated PDF and the uploaded original file immediately.
     """
     output_folder = current_app.config["OUTPUT_FOLDER"]
-    output_path = os.path.join(output_folder, filename)
+    try:
+        output_path = safe_join_path(output_folder, filename)
+    except ValueError:
+        return jsonify({
+            "success": False,
+            "message": "Invalid download request or file path."
+        }), 400
 
     if not os.path.exists(output_path):
         return jsonify({
@@ -117,6 +125,6 @@ def download_file(filename):
         file_bytes,
         mimetype="application/pdf",
         as_attachment=True,
-        download_name=filename
+        download_name=os.path.basename(output_path)
     )
 

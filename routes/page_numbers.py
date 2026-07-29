@@ -5,7 +5,7 @@ from flask import Blueprint, render_template, request, jsonify, send_file, curre
 from utils.file_handler import save_uploaded_file
 from utils.pdf_utils import add_page_numbers as add_page_numbers_util
 from utils.cleanup import cleanup_old_files, delete_files, delete_file_pair
-from utils.validators import is_allowed_document
+from utils.validators import is_allowed_document, safe_join_path
 
 page_numbers_bp = Blueprint("page_numbers", __name__)
 
@@ -70,13 +70,17 @@ def page_numbers_upload():
         }), 400 if isinstance(e, ValueError) else 500
 
 
+@page_numbers_bp.route("/add-page-numbers/download/<path:filename>")
 @page_numbers_bp.route("/add-page-numbers/download/<filename>")
 def download_page_numbers(filename):
     """
     Serves the output PDF file for download and cleans up.
     """
     output_folder = current_app.config.get("OUTPUT_FOLDER", "outputs")
-    output_path = os.path.join(output_folder, filename)
+    try:
+        output_path = safe_join_path(output_folder, filename)
+    except ValueError:
+        return jsonify({"success": False, "message": "Invalid download request or file path."}), 400
 
     if not os.path.exists(output_path):
         return jsonify({"success": False, "message": "File not found or has already been downloaded."}), 404
@@ -90,5 +94,5 @@ def download_page_numbers(filename):
         file_bytes,
         mimetype="application/pdf",
         as_attachment=True,
-        download_name=filename
+        download_name=os.path.basename(output_path)
     )

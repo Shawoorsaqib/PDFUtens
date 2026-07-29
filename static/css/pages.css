@@ -238,6 +238,47 @@
 }
 
 /* Tool Specialized Options Cards (Split, Rotate, Watermark, etc.) */
+.upload-actions label {
+    font-weight: 600;
+    margin-bottom: 0.45rem;
+    display: block;
+    color: var(--text-primary) !important;
+}
+
+.upload-actions input[type="text"],
+.upload-actions input[type="password"],
+.upload-actions input[type="number"],
+.upload-actions select,
+.tool-options-card input,
+.tool-options-card select {
+    width: 100%;
+    padding: 0.65rem 0.95rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border) !important;
+    background: var(--input-bg) !important;
+    color: var(--text-primary) !important;
+    font-size: var(--fs-md);
+    font-family: var(--font-body);
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.upload-actions select option,
+.tool-options-card select option {
+    background: var(--surface) !important;
+    color: var(--text-primary) !important;
+    padding: 0.5rem;
+}
+
+.upload-actions input:focus,
+.upload-actions select:focus,
+.tool-options-card input:focus,
+.tool-options-card select:focus {
+    outline: none;
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px var(--primary-glow) !important;
+}
+
 .split-options, .tool-options-section {
     padding: 3rem 0;
 }

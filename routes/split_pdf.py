@@ -13,7 +13,7 @@ from flask import (
 from utils.file_handler import save_uploaded_file
 from utils.pdf_utils import split_pdf as split_pdf_util
 from utils.cleanup import cleanup_old_files, delete_files, delete_file_pair
-from utils.validators import is_allowed_document
+from utils.validators import is_allowed_document, safe_join_path
 
 split_pdf_bp = Blueprint("split_pdf", __name__)
 
@@ -88,13 +88,20 @@ def split_pdf_upload():
         }), 400 if isinstance(e, ValueError) else 500
 
 
+@split_pdf_bp.route("/split-pdf/download/<path:filename>")
 @split_pdf_bp.route("/split-pdf/download/<filename>")
 def download_split_pdf(filename):
     """
     Serves the split output file (.pdf or .zip) for download and cleans up.
     """
     output_folder = current_app.config.get("OUTPUT_FOLDER", "outputs")
-    output_path = os.path.join(output_folder, filename)
+    try:
+        output_path = safe_join_path(output_folder, filename)
+    except ValueError:
+        return jsonify({
+            "success": False,
+            "message": "Invalid download request or file path."
+        }), 400
 
     if not os.path.exists(output_path):
         return jsonify({
@@ -114,5 +121,5 @@ def download_split_pdf(filename):
         file_bytes,
         mimetype=mimetype,
         as_attachment=True,
-        download_name=filename
+        download_name=os.path.basename(output_path)
     )
