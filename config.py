@@ -12,7 +12,7 @@ TEMP_FOLDER = os.path.join(BASE_DIR, "temp")
 MAX_CONTENT_LENGTH = 100 * 1024 * 1024
 
 # Secret Key
-SECRET_KEY = "replace-this-with-a-random-secret-key"
+SECRET_KEY = os.environ.get("SECRET_KEY", "pdfutens-production-secret-key-change-me")
 
 # Allowed Extensions
 ALLOWED_IMAGE_EXTENSIONS = {

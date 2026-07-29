@@ -1,0 +1,17 @@
+# ==========================================================
+# Render.com Blueprint Deployment Configuration
+# ==========================================================
+
+services:
+  - type: web
+    name: pdfutens
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: SECRET_KEY
+        generateValue: true
